@@ -1,2 +1,0 @@
-questo è un testo
-version 1.1
