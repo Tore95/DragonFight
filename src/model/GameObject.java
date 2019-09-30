@@ -22,14 +22,6 @@ public class GameObject {
         this(x,y,height,width,true,false);
     }
 
-    protected void setX(double x) {
-        this.x = x;
-    }
-
-    protected void setY(double y) {
-        this.y = y;
-    }
-
     protected void addX(double x) {
         this.x += x;
     }

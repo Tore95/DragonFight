@@ -69,7 +69,7 @@ public class SpriteEngine extends AnimationTimer {
                 rowFrames = 19;
                 launchAttackFrame = 6;
                 break;
-            case FIANL:
+            case FINAL:
                 currRow = 16;
                 rowFrames = 19;
                 launchAttackFrame = 4;

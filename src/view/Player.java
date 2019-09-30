@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Character;
 import model.enums.PlayerAction;
-import model.enums.Turned;
 
 public class Player extends Character {
 
@@ -54,7 +53,7 @@ public class Player extends Character {
 
     @Override
     public void auraThree() {
-        setPlayerAction(PlayerAction.FIANL);
+        setPlayerAction(PlayerAction.FINAL);
         spriteEngine.action();
     }
 
@@ -77,7 +76,7 @@ public class Player extends Character {
             case AURA2:
                 new AuraAttack(this,2).start();
                 break;
-            case FIANL:
+            case FINAL:
                 new AuraAttack(this,3).start();
                 break;
         }
