@@ -1,17 +1,20 @@
 package model;
 
+import model.shape.Ellipse;
+import model.shape.Point;
+
 public class GameObject {
 
-    private double x;
-    private double y;
+    private Point position;
+    private Ellipse hitbox;
     private int height;
     private int width;
     private boolean visible;
     private boolean inBackground;
 
     public GameObject(double x, double y, int height, int width, boolean visible, boolean inBackground) {
-        this.x = x;
-        this.y = y;
+        position = new Point(x,y);
+        hitbox = new Ellipse(x,y,width,height);
         this.height = height;
         this.width = width;
         this.visible = visible;
@@ -23,28 +26,36 @@ public class GameObject {
     }
 
     protected void addX(double x) {
-        this.x += x;
+        position.x += x;
+        hitbox.setXc(position.x);
     }
 
     protected void addY(double y) {
-        this.y += y;
+        position.y += y;
+        hitbox.setYc(position.y);
     }
 
     protected void subX(double x) {
-        this.x -= x;
+        position.x -= x;
+        hitbox.setXc(position.x);
     }
 
     protected void subY(double y) {
-        this.y -= y;
+        position.y -= y;
+        hitbox.setYc(position.y);
     }
 
     public double getX() {
-        return x;
+        return position.x;
     }
 
     public double getY() {
-        return y;
+        return position.y;
     }
+
+    public Point getPosition() { return position; }
+
+    public Ellipse getHitbox() { return hitbox; }
 
     public int getHeight() {
         return height;
@@ -71,39 +82,6 @@ public class GameObject {
     }
 
     public boolean isCollide(GameObject o) {
-        double right = (getX() + getWidth());
-        double left = getX();
-        double top = getY();
-        double bottom = (getY() + getHeight());
-
-        double oRight = (o.getX() + o.getWidth());
-        double oLeft = o.getX();
-        double oTop = o.getY();
-        double oBottom = (o.getY() + o.getHeight());
-
-        return (right >= oLeft && right <= oRight || left <= oRight && left >= oLeft) && (top >= oTop && top <= oBottom || bottom <= oBottom && bottom >= oTop);
-    }
-
-    public boolean isCollide(GameObject o, double intersectRatio) {
-
-        intersectRatio *= 0.5;
-
-        double ratioX = getWidth() * intersectRatio;
-        double ratioY = getHeight() * intersectRatio;
-
-        double oRatioX = o.getWidth() * intersectRatio;
-        double oRatioY = o.getHeight() * intersectRatio;
-
-        double right = (getX() + getWidth()) - ratioX;
-        double left = getX() + ratioX;
-        double top = getY() + ratioY;
-        double bottom = (getY() + getHeight()) - ratioY;
-
-        double oRight = (o.getX() + o.getWidth()) - oRatioX;
-        double oLeft = o.getX() + oRatioX;
-        double oTop = o.getY() + oRatioY;
-        double oBottom = (o.getY() + o.getHeight()) - oRatioY;
-
-        return (right >= oLeft && right <= oRight || left <= oRight && left >= oLeft) && (top >= oTop && top <= oBottom || bottom <= oBottom && bottom >= oTop);
+        return hitbox.intersect(o.getHitbox());
     }
 }

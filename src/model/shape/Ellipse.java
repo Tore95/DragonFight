@@ -23,6 +23,13 @@ public class Ellipse {
         this.b = height / 2;
     }
 
+    public void setXc(double x) { center.x = x; }
+    public void setYc(double y) { center.y = y; }
+
+    public Point getCenter() {
+        return center;
+    }
+
     private boolean isInside(Point p) {
         return (
             (Math.pow(p.x - center.x,2)/Math.pow(a,2)) +
