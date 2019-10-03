@@ -40,8 +40,7 @@ public class Ellipse {
     public Point[] getPoints() {
         Point[] points = new Point[8];
         for (int i = 0; i < points.length; i++) {
-            points[i].x = (Math.cos(radians[i]) * a) + center.x;
-            points[i].y = (Math.sin(radians[i]) * b) + center.y;
+            points[i] = new Point((Math.cos(radians[i]) * a) + center.x,(Math.sin(radians[i]) * b) + center.y);
         }
         return points;
     }
