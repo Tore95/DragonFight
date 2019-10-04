@@ -17,32 +17,32 @@ public class Ellipse {
     private double a;
     private double b;
 
+    private Point[] getPoints() {
+        Point[] points = new Point[8];
+        for (int i = 0; i < points.length; i++) {
+            points[i] = new Point((Math.cos(radians[i]) * a) + center.x,(Math.sin(radians[i]) * b) + center.y);
+        }
+        return points;
+    }
+
     public Ellipse(double xc, double yc, double width, double height) {
         center = new Point(xc,yc);
         this.a = width / 2;
         this.b = height / 2;
     }
 
-    public void setXc(double x) { center.x = x; }
-    public void setYc(double y) { center.y = y; }
-
     public Point getCenter() {
         return center;
     }
+
+    public void setXc(double x) { center.x = x; }
+    public void setYc(double y) { center.y = y; }
 
     private boolean isInside(Point p) {
         return (
             (Math.pow(p.x - center.x,2)/Math.pow(a,2)) +
             (Math.pow(p.y - center.y,2)/Math.pow(b,2))
         ) <= 1;
-    }
-
-    public Point[] getPoints() {
-        Point[] points = new Point[8];
-        for (int i = 0; i < points.length; i++) {
-            points[i] = new Point((Math.cos(radians[i]) * a) + center.x,(Math.sin(radians[i]) * b) + center.y);
-        }
-        return points;
     }
 
     public boolean intersect(Ellipse e) {
