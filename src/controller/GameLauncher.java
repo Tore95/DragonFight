@@ -9,7 +9,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import view.Player;
+import view.PlayerOld;
 import view.Map;
 
 public class GameLauncher extends Application {
@@ -44,8 +44,8 @@ public class GameLauncher extends Application {
 
         Map map = new Map(background,"resources/bg.png");
 
-        Player goku = new Player(1,players,auraAttacks,"resources/Goku.png");
-        Player vegeta = new Player(2,players,auraAttacks,"resources/Vegeta.png");
+        PlayerOld goku = new PlayerOld(1,players,auraAttacks,"resources/Goku.png");
+        PlayerOld vegeta = new PlayerOld(2,players,auraAttacks,"resources/Vegeta.png");
 
         goku.setTarget(vegeta);
         vegeta.setTarget(goku);

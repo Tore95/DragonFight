@@ -29,7 +29,7 @@ public class AuraAttack extends AnimationTimer {
     private int sizeX;
 
     private int damage;
-    private Player target;
+    private PlayerOld target;
     private Group auraAttacks;
     private ImageView imageView;
     private Image playerSprite;
@@ -42,7 +42,7 @@ public class AuraAttack extends AnimationTimer {
     private boolean loading;
     private int frame;
 
-    public AuraAttack(Player owner, int attackNumber) {
+    public AuraAttack(PlayerOld owner, int attackNumber) {
         switch (attackNumber) {
             case 1:
                 x = owner.getTurned() == Turned.RIGHT ? owner.getX() + 32 : owner.getX() - 32;
@@ -77,7 +77,7 @@ public class AuraAttack extends AnimationTimer {
         }
 
         this.auraObj = new GameObject(x, y, height, width, velocity, direction);
-        this.target = (Player) owner.getTarget();
+        this.target = (PlayerOld) owner.getTarget();
         this.auraAttacks = owner.getAuraAttacks();
         this.playerSprite = owner.getSpriteImage();
         this.attackNumber = attackNumber;

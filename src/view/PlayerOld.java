@@ -6,13 +6,13 @@ import javafx.scene.image.ImageView;
 import model.Character;
 import model.enums.PlayerAction;
 
-public class Player extends Character {
+public class PlayerOld extends Character {
 
     private SpriteEngine spriteEngine;
     private ImageView playerSprite;
     private Group auraAttacks;
 
-    public Player(int number, Group playerGroup, Group auraAttacks, String spriteUrl) {
+    public PlayerOld(int number, Group playerGroup, Group auraAttacks, String spriteUrl) {
         super(number);
         playerSprite = new ImageView(spriteUrl);
         spriteEngine = new SpriteEngine(playerSprite,this);
@@ -57,13 +57,7 @@ public class Player extends Character {
         spriteEngine.action();
     }
 
-    @Override
-    public void hittingMe(int damage) {
-        if (damage <= 3) setPlayerAction(PlayerAction.SOFT_HITTED);
-        else setPlayerAction(PlayerAction.HARD_HITTED);
-        spriteEngine.action();
-        subLife(damage);
-    }
+
 
     @Override
     public void launchAttack() {
