@@ -4,7 +4,7 @@ import model.enums.Direction;
 import model.enums.PlayerAction;
 import model.enums.Turned;
 
-public abstract class Character extends MoovableGO {
+public abstract class Character extends GameObject {
 
     protected int damage;
     protected int life;

@@ -5,16 +5,13 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.MoovableGO;
+import model.GameObject;
 import model.enums.Direction;
 import model.enums.Turned;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class AuraAttack extends AnimationTimer {
 
-    private MoovableGO auraObj;
+    private GameObject auraObj;
     private final long FPS = 32;
 
     private long lastFrame;
@@ -79,7 +76,7 @@ public class AuraAttack extends AnimationTimer {
                 break;
         }
 
-        this.auraObj = new MoovableGO(x, y, height, width, velocity, direction);
+        this.auraObj = new GameObject(x, y, height, width, velocity, direction);
         this.target = (Player) owner.getTarget();
         this.auraAttacks = owner.getAuraAttacks();
         this.playerSprite = owner.getSpriteImage();
