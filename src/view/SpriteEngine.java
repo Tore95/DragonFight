@@ -92,15 +92,17 @@ public class SpriteEngine extends AnimationTimer {
 
     @Override
     public void handle(long now) {
-        int frameJump = (int) Math.floor((now - lastFrame) / (1000000000L / FPS));
+        int frameJump = (int) Math.floor((double) (now - lastFrame) / (double)(1000000000L / FPS));
         if (frameJump >= 1) {
             lastFrame = now;
             playerImage.setViewport(new Rectangle2D(currCol * frameSize, currRow * frameSize, frameSize, frameSize));
             if (lockedFrames < 0) {
                 currCol = (currCol + 1) % rowFrames;
                 character.move();
-                playerImage.setX(character.getX());
-                playerImage.setY(character.getY());
+                // TO-DO review
+                playerImage.setX(character.getX() - character.getWidth());
+                playerImage.setY(character.getY() - ((1d/2) * character.getHeight()));
+                //
             } else if (lockedFrames > 0) {
                 if (currCol == launchAttackFrame) character.launchAttack();
                 currCol += 1;

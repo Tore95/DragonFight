@@ -43,7 +43,7 @@ public abstract class Character extends GameObject {
     }
 
     public Character(int number) {
-        super(number == 1 ? 100 : 1000, 500, 128, 128, 20, Direction.STOP);
+        super(number == 1 ? 100 : 1000, 500, 128, 64, 20, Direction.STOP);
         this.damage = 2;
         this.life = 100;
         this.aura = 100;

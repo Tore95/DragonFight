@@ -45,8 +45,8 @@ public class AuraAttack extends AnimationTimer {
     public AuraAttack(Player owner, int attackNumber) {
         switch (attackNumber) {
             case 1:
-                x = owner.getTurned() == Turned.RIGHT ? owner.getX() + 64 + 32 : owner.getX() - 32;
-                y = owner.getY() + 16;
+                x = owner.getTurned() == Turned.RIGHT ? owner.getX() + 32 : owner.getX() - 32;
+                y = owner.getY() - 16;
                 height = 64;
                 width = 64;
                 velocity = owner.getVelocity();
@@ -111,8 +111,10 @@ public class AuraAttack extends AnimationTimer {
                 sizeX = 64;
                 sizeY = 64;
                 imageView.setViewport(new Rectangle2D(viewX,viewY,sizeX,sizeY));
-                imageView.setX(auraObj.getX());
-                imageView.setY(auraObj.getY());
+                // image set here
+                imageView.setX(auraObj.getX() - ((1d/2) * auraObj.getWidth()));
+                imageView.setY(auraObj.getY() - ((1d/2) * auraObj.getHeight()));
+                //
                 auraAttacks.getChildren().add(imageView);
                 break;
             case 3:
@@ -133,14 +135,16 @@ public class AuraAttack extends AnimationTimer {
 
     @Override
     public void handle(long now) {
-        int frameJump = (int) Math.floor((now - lastFrame) / (1000000000L / FPS));
+        int frameJump = (int) Math.floor((double) (now - lastFrame) / (double) (1000000000L / FPS));
         if (now > timerStop) stop();
         if (frameJump >= 1) {
             if (auraObj.isCollide(target)) stop();
             switch (attackNumber) {
                 case 1:
                     auraObj.move();
-                    imageView.setX(auraObj.getX());
+                    // image set here
+                    imageView.setX(auraObj.getX() - ((1d/2) * auraObj.getWidth()));
+                    //
                     break;
                 case 2:
                     distTick += auraObj.getVelocity();

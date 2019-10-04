@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -59,11 +60,22 @@ public class GameLauncher extends Application {
         UI.getChildren().add(tgoku);
         UI.getChildren().add(tvegeta);
 
+
+        // Hitbox test
+        Ellipse hitGoku = new Ellipse(goku.getX(),goku.getY(),goku.getWidth() / 2d,goku.getHeight() / 2d);
+        hitGoku.setStroke(Color.ORANGE);
+        Ellipse hitVegeta = new Ellipse(vegeta.getX(),vegeta.getY(),vegeta.getWidth() / 2d,vegeta.getHeight() / 2d);
+        hitVegeta.setStroke(Color.BLUE);
+        UI.getChildren().add(hitGoku);
+        UI.getChildren().add(hitVegeta);
+        //
+
+
         new AnimationTimer() {
             @Override
             public void handle(long now) {
 
-                int frameJump = (int) Math.floor((now - lastFrame) / (1000000000L / FPS));
+                int frameJump = (int) Math.floor((double)(now - lastFrame) / (double)(1000000000L / FPS));
                 if (frameJump >= 1) {
                     lastFrame = now;
 
@@ -72,6 +84,13 @@ public class GameLauncher extends Application {
                         if (goku.getLife() < 100) goku.addLife(1);
                         if (vegeta.getLife() < 100) vegeta.addLife(1);
                     }
+
+                    // Hitbox test
+                    hitGoku.setCenterX(goku.getX());
+                    hitGoku.setCenterY(goku.getY());
+                    hitVegeta.setCenterX(vegeta.getX());
+                    hitVegeta.setCenterY(vegeta.getY());
+                    //
                 }
 
                 tgoku.setText("Goku: " + goku.getLife());
