@@ -1,10 +1,13 @@
 package model;
 
+import controller.GameStatus;
 import model.enums.Direction;
 import model.shape.Ellipse;
 import model.shape.Point;
 
-public class GameObject {
+public abstract class GameObject {
+
+    protected GameStatus gs;
 
     private Point position;
     private Ellipse hitbox;
@@ -30,13 +33,17 @@ public class GameObject {
         hitbox.setYc(position.y);
     }
 
+    public abstract void draw();
+
     public GameObject(double x, double y, int height, int width, double velocity, Direction direction) {
+        gs = GameStatus.getInstance();
         position = new Point(x,y);
         hitbox = new Ellipse(x,y,width,height);
         this.height = height;
         this.width = width;
         this.velocity = velocity;
         this.direction = direction;
+        gs.getToAddObjects().add(this);
     }
 
     public GameObject(double x, double y, int height, int width) {
@@ -103,6 +110,11 @@ public class GameObject {
             case DOWN:
                 addY(velocity);
         }
+    }
+
+    public void update() {
+        move();
+        draw();
     }
 
     public boolean isCollide(GameObject o) {
