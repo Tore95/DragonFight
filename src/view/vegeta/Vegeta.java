@@ -93,14 +93,16 @@ public class Vegeta extends Player implements Controls {
 
     @Override
     public void draw() {
+
+        imageView.setX(getX() - getWidth());
+        imageView.setY(getY() - (getHeight() / 2d));
+
         int frameJump = (int) Math.floor((double) (System.nanoTime() - lastFrame) / (double)(1000000000L / spriteFramePerSecond));
         if (frameJump >= 1) {
             lastFrame = System.nanoTime();
             imageView.setViewport(new Rectangle2D(currCol * frameSize, currRow * frameSize, frameSize, frameSize));
             if (lockedFrames < 0) {
                 currCol = (currCol + 1) % rowFrames;
-                imageView.setX(getX() - getWidth());
-                imageView.setY(getY() - (getHeight() / 2d));
             } else if (lockedFrames > 0) {
                 if (currCol == launchAttackFrame) launchAttack();
                 currCol += 1;

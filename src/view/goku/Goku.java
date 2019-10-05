@@ -11,7 +11,6 @@ import model.enums.Turned;
 public class Goku extends Player implements Controls {
 
     private ImageView imageView;
-    private final long spriteFramePerSecond = 16;
     private long lastFrame;
     private int frameSize = 128;
     private int currCol = 0;
@@ -93,14 +92,16 @@ public class Goku extends Player implements Controls {
 
     @Override
     public void draw() {
-        int frameJump = (int) Math.floor((double) (System.nanoTime() - lastFrame) / (double)(1000000000L / spriteFramePerSecond));
+
+        imageView.setX(getX() - getWidth());
+        imageView.setY(getY() - (getHeight() / 2d));
+
+        int frameJump = (int) Math.floor((double) (System.nanoTime() - lastFrame) / (double)(1000000000L / gs.getSpriteFPS()));
         if (frameJump >= 1) {
             lastFrame = System.nanoTime();
             imageView.setViewport(new Rectangle2D(currCol * frameSize, currRow * frameSize, frameSize, frameSize));
             if (lockedFrames < 0) {
                 currCol = (currCol + 1) % rowFrames;
-                imageView.setX(getX() - getWidth());
-                imageView.setY(getY() - (getHeight() / 2d));
             } else if (lockedFrames > 0) {
                 if (currCol == launchAttackFrame) launchAttack();
                 currCol += 1;
@@ -117,8 +118,8 @@ public class Goku extends Player implements Controls {
         switch (getPlayerAction()) {
             case PUNCH:
             case KICK: if (isCollide(getTarget())) getTarget().hitted(getDamage()); break;
-            case AURA1: new Onda(getTurned() == Turned.RIGHT ? getX() + 32 : getX() - 32,getY() - 16, getDamage() * 3, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
-            case AURA2: new Kamehameha(getTurned() == Turned.RIGHT ? getX() + 32 : getX() - 32,getY() - 16, getDamage() * 4, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
+            case AURA1: new Onda(getTurned() == Turned.RIGHT ? getX() + 84 : getX() - 84,getY() - 6, getDamage() * 3, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
+            case AURA2: new Kamehameha(getTurned() == Turned.RIGHT ? getX() + 84 : getX() - 84,getY() - 6, getDamage() * 4, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
             case FINAL: new Genkidama(getX(),getY() - 64 - 128,getDamage() * 5, getTurned() == Turned.RIGHT ? Direction.DOWN_RIGHT : Direction.DOWN_LEFT, getTarget()); break;
         }
     }

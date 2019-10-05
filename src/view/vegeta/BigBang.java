@@ -17,12 +17,14 @@ public class BigBang extends GameObject {
     private int viewX;
     private int viewY;
     private int size;
+    private long lastFrame;
 
 
     public BigBang(double x, double y, int damage, Direction direction, Player target) {
-        super(x, y, 256, 256, 20, direction);
+        super(x, y, 256, 256, 0, direction);
         this.damage = damage;
         this.target = target;
+        this.lastFrame = System.nanoTime();
         viewX = 128 * 4;
         viewY = 128 * 22;
         size = 256;
@@ -40,22 +42,30 @@ public class BigBang extends GameObject {
 
     @Override
     public void draw() {
-        if (!finish) {
-            if (loading) {
-                viewX += 256;
-                imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
-                frame++;
-                if (frame == 4) loading = false;
+        moveImage();
+        int frameJump = (int) Math.floor((double) (System.nanoTime() - lastFrame) / (double)(1000000000L / gs.getSpriteFPS()));
+        if (frameJump >= 1) {
+            lastFrame = System.nanoTime();
+
+            if (!finish) {
+                if (loading) {
+                    viewX += 256;
+                    imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
+                    frame++;
+                    if (frame == 4) {
+                        loading = false;
+                        setVelocity(20);
+                    }
+                } else {
+                    if (isCollide(target)) {
+                        target.hitted(damage);
+                        finish = true;
+                    } else if (distance > 1000) finish = true;
+                }
             } else {
-                moveImage();
-                if (isCollide(target)) {
-                    target.hitted(damage);
-                    finish = true;
-                } else if (distance > 1000) finish = true;
+                gs.getAuraAttacks().getChildren().remove(imageView);
+                gs.getToRemoveObjects().add(this);
             }
-        } else {
-            gs.getAuraAttacks().getChildren().remove(imageView);
-            gs.getToRemoveObjects().add(this);
         }
     }
 

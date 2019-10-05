@@ -23,7 +23,11 @@ public class GameStatus {
     private LinkedList<GameObject> toRemoveObjects;
     private LinkedList<GameObject> toAddObjects;
     private long FPS;
+    private long spriteFPS;
 
+    public long getSpriteFPS() {
+        return spriteFPS;
+    }
     public long getFPS() {
         return FPS;
     }
@@ -83,7 +87,8 @@ public class GameStatus {
         gokuImage = new Image("resources/Goku.png");
         vegetaImage = new Image("resources/Vegeta.png");
 
-        FPS = 30;
+        FPS = 60;
+        spriteFPS = 16;
     }
 
     void update() {

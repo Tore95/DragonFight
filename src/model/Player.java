@@ -20,7 +20,7 @@ public abstract class Player extends GameObject {
     private int aura;
 
     public Player(int number) {
-        super(number == 1 ? 100 : 1000, 500, 128, 64, 20, Direction.STOP);
+        super(number == 1 ? 100 : 1000, 500, 128, 64, 10, Direction.STOP);
         this.damage = 2;
         this.life = 100;
         this.aura = 100;
@@ -147,6 +147,6 @@ public abstract class Player extends GameObject {
         super.update();
         updateState();
         if (playerAction != PlayerAction.REST) setVelocity(0);
-        else if (getVelocity() == 0) setVelocity(20);
+        else if (getVelocity() == 0) setVelocity(10);
     }
 }

@@ -13,12 +13,14 @@ public class Onda extends GameObject {
     private boolean finish = false;
     private Player target;
     private int distance = 0;
+    private long lastFrame;
 
 
     public Onda(double x, double y, int damage, Direction direction, Player target) {
         super(x, y, 64, 64, 20, direction);
         this.damage = damage;
         this.target = target;
+        this.lastFrame = System.nanoTime();
         int imgX = (128 * 5) - 32;
         int imgY = (128 * 23) - 32;
         int size = 64;
