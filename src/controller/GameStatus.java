@@ -1,15 +1,26 @@
 package controller;
 
+import javafx.application.Platform;
+import javafx.beans.property.Property;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import model.GameObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
+import java.util.Properties;
 
 public class GameStatus {
 
-    private static GameStatus instance = new GameStatus();
+    private static GameStatus instance;
+
+    private Properties spriteMapping;
 
     private Group root;
     private Group background;
@@ -22,6 +33,7 @@ public class GameStatus {
     private Image vegetaImage;
     private LinkedList<GameObject> toRemoveObjects;
     private LinkedList<GameObject> toAddObjects;
+
     private long FPS;
     private long spriteFPS;
 
@@ -61,8 +73,11 @@ public class GameStatus {
     public Image getVegetaImage() {
         return vegetaImage;
     }
-
+    public Properties getSpriteMapping() {
+        return spriteMapping;
+    }
     public static GameStatus getInstance() {
+        if (instance == null) instance = new GameStatus();
         return instance;
     }
 
@@ -89,6 +104,14 @@ public class GameStatus {
 
         FPS = 60;
         spriteFPS = 16;
+
+        try {
+            spriteMapping = new Properties();
+            spriteMapping.load(getClass().getClassLoader().getResourceAsStream("controller/spriteMapping.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     void update() {

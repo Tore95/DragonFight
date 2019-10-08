@@ -3,9 +3,9 @@ package controller;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.enums.Characters;
+import view.Character;
 import view.Map;
-import view.goku.Goku;
-import view.vegeta.Vegeta;
 
 public class GameLauncher extends Application {
 
@@ -25,8 +25,8 @@ public class GameLauncher extends Application {
 
         Map map = new Map();
 
-        Goku goku = new Goku(1);
-        Vegeta vegeta = new Vegeta(2);
+        Character goku = new Character(1, Characters.GOKU);
+        Character vegeta = new Character(2, Characters.VEGETA);
 
         goku.setTarget(vegeta);
         vegeta.setTarget(goku);

@@ -7,6 +7,7 @@ import model.Player;
 import model.enums.Direction;
 
 public class SpecialCannon extends GameObject {
+
     private ImageView imageView;
     private int damage;
     private boolean finish;
@@ -19,7 +20,7 @@ public class SpecialCannon extends GameObject {
     private int distTick;
 
     public SpecialCannon(double x, double y, int damage, Direction direction, Player target) {
-        super(x, y, 64, 64, 20, direction);
+        super(x, y, 64, 64, 16, direction);
         this.damage = damage;
         this.target = target;
         viewX = direction == Direction.RIGHT ? 0 : (18 * 128) + 64;
@@ -30,14 +31,13 @@ public class SpecialCannon extends GameObject {
         distance = 0;
         imageView = new ImageView(gs.getVegetaImage());
         imageView.setViewport(new Rectangle2D(viewX, viewY, sizeX, sizeY));
-        moveImage();
+        imageView.setX(getX() - (getWidth() / 2d));
+        imageView.setY(getY() - (getHeight() / 2d));
         gs.getAuraAttacks().getChildren().add(imageView);
 
     }
 
     private void moveImage() {
-        imageView.setX(getX() - (getWidth() / 2d));
-        imageView.setY(getY() - (getHeight() / 2d));
         distance += getVelocity();
         distTick += getVelocity();
     }
@@ -46,7 +46,7 @@ public class SpecialCannon extends GameObject {
     public void draw() {
         if (!finish) {
             moveImage();
-            if (distTick >= 32 + 16) {
+            if (distTick >= 64) {
                 sizeX += 64;
                 if (getDirection() == Direction.LEFT) {
                     viewX -= 64;
