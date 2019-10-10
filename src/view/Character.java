@@ -105,8 +105,8 @@ public class Character extends Player implements Controls {
                 switch (getPlayerAction()) {
                     case PUNCH:
                     case KICK: if (isCollide(getTarget())) getTarget().hitted(getDamage()); break;
-                    case AURA1: new view.vegeta.Onda(getTurned() == Turned.RIGHT ? getX() + 32 : getX() - 32,getY() - 16, getDamage() * 3, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
-                    case AURA2: new SpecialCannon(getTurned() == Turned.RIGHT ? getX() + 32 : getX() - 32,getY() - 16, getDamage() * 4, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
+                    case AURA1: new view.vegeta.Onda(getTurned() == Turned.RIGHT ? getX() + 84 : getX() - 84,getY() - 6, getDamage() * 3, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
+                    case AURA2: new SpecialCannon(getTurned() == Turned.RIGHT ? getX() + 80 : getX() - 80,getY(), getDamage() * 4, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
                     case FINAL: new BigBang(getTurned() == Turned.RIGHT ? getX() + 32 + 128 : getX() - 32 - 128,getY() - 16,getDamage() * 5, getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, getTarget()); break;
                 } break;
         }
