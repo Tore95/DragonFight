@@ -1,9 +1,20 @@
 <component name="ProjectDictionaryState">
   <dictionary name="salvatore">
     <words>
+      <w>attackframe</w>
       <w>goku</w>
       <w>hitbox</w>
       <w>hitted</w>
+      <w>imgx</w>
+      <w>imgxl</w>
+      <w>imgxr</w>
+      <w>imgy</w>
+      <w>offsetx</w>
+      <w>offsetxl</w>
+      <w>offsetxr</w>
+      <w>offsety</w>
+      <w>sizex</w>
+      <w>sizey</w>
       <w>vegeta</w>
     </words>
   </dictionary>
