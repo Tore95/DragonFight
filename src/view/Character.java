@@ -5,16 +5,8 @@ import javafx.scene.image.ImageView;
 import model.Controls;
 import model.Player;
 import model.enums.Characters;
-import model.enums.Direction;
 import model.enums.PlayerAction;
 import model.enums.Turned;
-import view.goku.Genkidama;
-import view.goku.Kamehameha;
-import view.goku.Onda;
-import view.vegeta.BigBang;
-import view.vegeta.SpecialCannon;
-
-import java.util.Properties;
 
 public class Character extends Player implements Controls {
 
@@ -30,7 +22,7 @@ public class Character extends Player implements Controls {
 
     public Character(int number, Characters character) {
         super(number,character);
-        imageView = new ImageView(sm.getProperty(this.currCharacter + "imgUrl"));
+        imageView = new ImageView(sm.getProperty(this.currCharacter + "imgurl"));
         lastFrame = System.nanoTime();
         currCol = 0;
         currRow = 0;
@@ -55,7 +47,7 @@ public class Character extends Player implements Controls {
         String currAction = getPlayerAction().toString().toLowerCase() + '.';
         currRow = Integer.parseInt(sm.getProperty(currCharacter + currAction + "row"));
         rowFrames = Integer.parseInt(sm.getProperty(currCharacter + currAction + "frames"));
-        launchAttackFrame = Integer.parseInt(sm.getProperty(currCharacter + currAction + "attackFrame"));
+        launchAttackFrame = Integer.parseInt(sm.getProperty(currCharacter + currAction + "attackframe"));
         currCol = 0;
         currRow = turned == Turned.RIGHT ? currRow : currRow + 1;
         lockedFrames = rowFrames - 1;

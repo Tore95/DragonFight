@@ -61,13 +61,13 @@ public abstract class Player extends GameObject {
     private void setTurned(Turned turned) {
         this.turned = turned;
         if (turned == Turned.RIGHT) {
-            auraOneOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura1.parameters.offsetx"));
-            auraTwoOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.parameters.offsetx"));
+            auraOneOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx"));
+            auraTwoOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx"));
             auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxr"));
             auraFinalOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx"));
         } else {
-            auraOneOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura1.parameters.offsetx")));
-            auraTwoOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura2.parameters.offsetx")));
+            auraOneOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx")));
+            auraTwoOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx")));
             auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxl"));
             auraFinalOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx")));
         }
@@ -97,7 +97,6 @@ public abstract class Player extends GameObject {
 
     public Player(int number, Characters character) {
         super(number == 1 ? 100 : 1000, 500, 128, 64, 10, Direction.STOP);
-        setTurned(number == 1 ? Turned.RIGHT : Turned.LEFT);
         this.damage = 2;
         this.life = 100;
         this.aura = 100;
@@ -105,6 +104,7 @@ public abstract class Player extends GameObject {
         this.character = character;
         currCharacter = character.toString().toLowerCase() + '.';
         sm = gs.getSpriteMapping();
+        setTurned(number == 1 ? Turned.RIGHT : Turned.LEFT);
         // set AuraOne Parameters
         auraOneRow = Integer.parseInt(sm.getProperty(currCharacter + "aura1.row"));
         auraOneFrames = Integer.parseInt(sm.getProperty(currCharacter + "aura1.frames"));
