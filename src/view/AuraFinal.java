@@ -24,7 +24,7 @@ public class AuraFinal extends GameObject {
     private boolean loading;
     private boolean finish;
 
-    public AuraFinal(Player owner) {
+    public AuraFinal(Character owner) {
         super(
                 owner.getX() + owner.getAuraFinalOffsetX(),
                 owner.getY() + owner.getAuraFinalOffsetY(),
@@ -44,7 +44,7 @@ public class AuraFinal extends GameObject {
         this.finish = false;
         this.distance = 0;
         this.frame = 0;
-        imageView = new ImageView(new Image(gs.getSpriteMapping().getProperty(owner.getCurrCharacter() + "imgurl")));
+        imageView = new ImageView(owner.getSprite());
         imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
         moveImage();
         gs.getAuraAttacks().getChildren().add(imageView);

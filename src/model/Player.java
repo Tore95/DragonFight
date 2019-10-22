@@ -11,7 +11,6 @@ public abstract class Player extends GameObject {
     // members
     protected Player target;
     protected Turned turned;
-    protected Characters character;
     protected String currCharacter;
     protected Properties sm;
     private PlayerAction playerAction;
@@ -96,12 +95,11 @@ public abstract class Player extends GameObject {
     }
 
     public Player(int number, Characters character) {
-        super(number == 1 ? 100 : 1000, 500, 128, 64, 10, Direction.STOP);
+        super(number == 1 ? 164 : 1064, 564, 128, 64, 10, Direction.STOP);
         this.damage = 2;
         this.life = 100;
         this.aura = 100;
         this.playerAction = PlayerAction.REST;
-        this.character = character;
         currCharacter = character.toString().toLowerCase() + '.';
         sm = gs.getSpriteMapping();
         setTurned(number == 1 ? Turned.RIGHT : Turned.LEFT);

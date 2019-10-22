@@ -17,7 +17,7 @@ public class AuraOne extends GameObject {
     private int range;
     private boolean finish;
 
-    public AuraOne(Player owner) {
+    public AuraOne(Character owner) {
         super(
                 owner.getX() + owner.getAuraOneOffsetX(),
                 owner.getY() + owner.getAuraOneOffsetY(),
@@ -31,7 +31,7 @@ public class AuraOne extends GameObject {
         this.range = owner.getAuraOneRange();
         this.distance = 0;
         this.finish = false;
-        imageView = new ImageView(new Image(gs.getSpriteMapping().getProperty(owner.getCurrCharacter() + "imgurl")));
+        imageView = new ImageView(owner.getSprite());
         imageView.setViewport(new Rectangle2D(
                 owner.getAuraOneImgX(),
                 owner.getAuraOneImgY(),

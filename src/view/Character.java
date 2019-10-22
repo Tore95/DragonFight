@@ -1,6 +1,7 @@
 package view;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Controls;
 import model.Player;
@@ -13,6 +14,7 @@ public class Character extends Player implements Controls {
     private static final int frameSize = 128;
 
     private ImageView imageView;
+    private Image sprite;
     private long lastFrame;
     private int currCol;
     private int currRow;
@@ -22,7 +24,8 @@ public class Character extends Player implements Controls {
 
     public Character(int number, Characters character) {
         super(number,character);
-        imageView = new ImageView(sm.getProperty(this.currCharacter + "imgurl"));
+        sprite = new Image(sm.getProperty(this.currCharacter + "imgurl"));
+        imageView = new ImageView(sprite);
         lastFrame = System.nanoTime();
         currCol = 0;
         currRow = 0;
@@ -31,6 +34,10 @@ public class Character extends Player implements Controls {
         lockedFrames = -1;
         direction();
         gs.getPlayers().getChildren().add(imageView);
+    }
+
+    public Image getSprite() {
+        return sprite;
     }
 
     public void direction() {

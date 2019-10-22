@@ -23,7 +23,7 @@ public class AuraTwo extends GameObject {
     private int sizeY;
     private boolean finish;
 
-    public AuraTwo(Player owner) {
+    public AuraTwo(Character owner) {
         super(
                 owner.getX() + owner.getAuraTwoOffsetX(),
                 owner.getY() + owner.getAuraTwoOffsetY(),
@@ -43,7 +43,7 @@ public class AuraTwo extends GameObject {
         this.distance = 0;
         this.countTick = 0;
         this.finish = false;
-        imageView = new ImageView(new Image(gs.getSpriteMapping().getProperty(owner.getCurrCharacter() + "imgurl")));
+        imageView = new ImageView(owner.getSprite());
         imageView.setViewport(new Rectangle2D(viewX,viewY,sizeX,sizeY));
         imageView.setX(getX() - (getWidth() / 2d));
         imageView.setY(getY() - (getHeight() / 2d));
