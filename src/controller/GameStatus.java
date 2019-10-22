@@ -21,8 +21,6 @@ public class GameStatus {
     private Group UI;
     private Scene scene;
     private LinkedList<GameObject> gameObjects;
-    private Image gokuImage;
-    private Image vegetaImage;
     private LinkedList<GameObject> toRemoveObjects;
     private LinkedList<GameObject> toAddObjects;
 
@@ -59,12 +57,6 @@ public class GameStatus {
     public Scene getScene() {
         return scene;
     }
-    public Image getGokuImage() {
-        return gokuImage;
-    }
-    public Image getVegetaImage() {
-        return vegetaImage;
-    }
     public Properties getSpriteMapping() {
         return spriteMapping;
     }
@@ -90,9 +82,6 @@ public class GameStatus {
         gameObjects = new LinkedList<>();
         toRemoveObjects = new LinkedList<>();
         toAddObjects = new LinkedList<>();
-
-        gokuImage = new Image("resources/Goku.png");
-        vegetaImage = new Image("resources/Vegeta.png");
 
         FPS = 60;
         spriteFPS = 16;

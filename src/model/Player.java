@@ -238,7 +238,7 @@ public abstract class Player extends GameObject {
         this.playerAction = playerAction;
         return true;
     }
-    public void forcedSetPlayerAction(PlayerAction playerAction) {
+    public void forceSetPlayerAction(PlayerAction playerAction) {
         this.playerAction = playerAction;
     }
     public void setDamage(int damage) {

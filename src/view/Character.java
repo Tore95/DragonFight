@@ -80,7 +80,7 @@ public class Character extends Player implements Controls {
                 lockedFrames -= 1;
             } else {
                 lockedFrames -= 1;
-                forcedSetPlayerAction(PlayerAction.REST);
+                forceSetPlayerAction(PlayerAction.REST);
                 direction();
             }
         }
