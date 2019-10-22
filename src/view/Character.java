@@ -85,23 +85,12 @@ public class Character extends Player implements Controls {
     }
 
     private void launchAttack() {
-        switch (character) {
-            case GOKU:
-                switch (getPlayerAction()) {
-                    case PUNCH:
-                    case KICK: if (isCollide(target)) target.hitted(getDamage()); break;
-                    case AURA1: new Onda(turned == Turned.RIGHT ? getX() + 84 : getX() - 84,getY() - 6, getDamage() * 3, turned == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, target); break;
-                    case AURA2: new Kamehameha(turned == Turned.RIGHT ? getX() + 84 : getX() - 84,getY() - 6, getDamage() * 4, turned == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, target); break;
-                    case FINAL: new Genkidama(getX(),getY() - 64 - 128,getDamage() * 5, turned == Turned.RIGHT ? Direction.DOWN_RIGHT : Direction.DOWN_LEFT, target); break;
-                } break;
-            case VEGETA:
-                switch (getPlayerAction()) {
-                    case PUNCH:
-                    case KICK: if (isCollide(target)) target.hitted(getDamage()); break;
-                    case AURA1: new view.vegeta.Onda(turned == Turned.RIGHT ? getX() + 84 : getX() - 84,getY() - 6, getDamage() * 3, turned == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, target); break;
-                    case AURA2: new SpecialCannon(turned == Turned.RIGHT ? getX() + 80 : getX() - 80,getY(), getDamage() * 4, turned == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, target); break;
-                    case FINAL: new BigBang(turned == Turned.RIGHT ? getX() + 32 + 128 : getX() - 32 - 128,getY() - 16,getDamage() * 5, turned == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT, target); break;
-                } break;
+        switch (getPlayerAction()) {
+            case PUNCH:
+            case KICK: if (isCollide(target)) target.hitted(getDamage()); break;
+            case AURA1: new AuraOne(this); break;
+            case AURA2: new AuraTwo(this); break;
+            case FINAL: new AuraFinal(this); break;
         }
     }
 

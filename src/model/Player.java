@@ -38,8 +38,7 @@ public abstract class Player extends GameObject {
     private int auraTwoRow;
     private int auraTwoFrames;
     private int auraTwoAttackFrame;
-    private int auraTwoImgXr;
-    private int auraTwoImgXl;
+    private int auraTwoImgX;
     private int auraTwoImgY;
     private int auraTwoSizeX;
     private int auraTwoSizeY;
@@ -64,10 +63,12 @@ public abstract class Player extends GameObject {
         if (turned == Turned.RIGHT) {
             auraOneOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura1.parameters.offsetx"));
             auraTwoOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.parameters.offsetx"));
+            auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxr"));
             auraFinalOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx"));
         } else {
             auraOneOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura1.parameters.offsetx")));
             auraTwoOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura2.parameters.offsetx")));
+            auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxl"));
             auraFinalOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx")));
         }
     }
@@ -117,8 +118,6 @@ public abstract class Player extends GameObject {
         auraTwoRow = Integer.parseInt(sm.getProperty(currCharacter + "aura2.row"));
         auraTwoFrames = Integer.parseInt(sm.getProperty(currCharacter + "aura2.frames"));
         auraTwoAttackFrame = Integer.parseInt(sm.getProperty(currCharacter + "aura2.attackframe"));
-        auraTwoImgXr = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxr"));
-        auraTwoImgXl = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxl"));
         auraTwoImgY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgy"));
         auraTwoSizeX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizex"));
         auraTwoSizeY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizey"));
@@ -146,6 +145,9 @@ public abstract class Player extends GameObject {
     }
     public PlayerAction getPlayerAction() {
         return playerAction;
+    }
+    public String getCurrCharacter() {
+        return currCharacter;
     }
     public int getDamage() {
         return damage;
@@ -192,11 +194,8 @@ public abstract class Player extends GameObject {
     public int getAuraTwoAttackFrame() {
         return auraTwoAttackFrame;
     }
-    public int getAuraTwoImgXr() {
-        return auraTwoImgXr;
-    }
-    public int getAuraTwoImgXl() {
-        return auraTwoImgXl;
+    public int getAuraTwoImgX() {
+        return auraTwoImgX;
     }
     public int getAuraTwoImgY() {
         return auraTwoImgY;
