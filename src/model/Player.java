@@ -5,15 +5,10 @@ import model.enums.Direction;
 import model.enums.PlayerAction;
 import model.enums.Turned;
 
+import java.util.HashMap;
 import java.util.Properties;
 
 public abstract class Player extends GameObject {
-    // members
-    protected Player target;
-    protected Turned turned;
-    protected String currCharacter;
-    protected Properties sm;
-    private PlayerAction playerAction;
     // movement utilities
     private boolean right = false;
     private boolean left = false;
@@ -23,53 +18,35 @@ public abstract class Player extends GameObject {
     private int damage;
     private int life;
     private int aura;
-    // Punch Parameters
-    private int punchOffsetX;
-    private int punchOffsetY;
-    // Kick Parameters
-    private int kickOffsetX;
-    private int kickOffsetY;
-    // AuraOne Parameters
-    private int auraOneImgX;
-    private int auraOneImgY;
-    private int auraOneSize;
-    private int auraOneRange;
-    private int auraOneOffsetX;
-    private int auraOneOffsetY;
-    // AuraTwo Parameters
-    private int auraTwoImgX;
-    private int auraTwoImgY;
-    private int auraTwoSizeX;
-    private int auraTwoSizeY;
-    private int auraTwoRange;
-    private int auraTwoOffsetX;
-    private int auraTwoOffsetY;
-    private int auraTwoTick;
-    // AuraFinal Parameters
-    private int auraFinalImgX;
-    private int auraFinalImgY;
-    private int auraFinalSize;
-    private int auraFinalRange;
-    private int auraFinalOffsetX;
-    private int auraFinalOffsetY;
-    private String auraFinalDirection;
+    private PlayerAction playerAction;
+
+    protected Player target;
+    protected Turned turned;
+    protected String currCharacter;
+    protected Properties sm;
+    // Properties HashMaps
+    protected HashMap<String,Integer> hashPunch;
+    protected HashMap<String,Integer> hashKick;
+    protected HashMap<String,Integer> hashAuraOne;
+    protected HashMap<String,Integer> hashAuraTwo;
+    protected HashMap<String,Integer> hashAuraFinal;
 
     private void setTurned(Turned turned) {
         this.turned = turned;
         if (turned == Turned.RIGHT) {
-            punchOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "punch.offsetxr"));
-            kickOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "kick.offsetxr"));
-            auraOneOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx"));
-            auraTwoOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx"));
-            auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxr"));
-            auraFinalOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx"));
+            hashPunch.put("offsetx",Integer.parseInt(sm.getProperty(currCharacter + "punch.offsetxr")));
+            hashKick.put("offsetx",Integer.parseInt(sm.getProperty(currCharacter + "kick.offsetxr")));
+            hashAuraOne.put("offsetx",Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx")));
+            hashAuraTwo.put("offsetx",Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx")));
+            hashAuraTwo.put("imgx",Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxr")));
+            hashAuraFinal.put("offsetx",Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx")));
         } else {
-            punchOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "punch.offsetxl"));
-            kickOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "kick.offsetxl"));
-            auraOneOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx")));
-            auraTwoOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx")));
-            auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxl"));
-            auraFinalOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx")));
+            hashPunch.put("offsetx",Integer.parseInt(sm.getProperty(currCharacter + "punch.offsetxl")));
+            hashKick.put("offsetx",Integer.parseInt(sm.getProperty(currCharacter + "kick.offsetxl")));
+            hashAuraOne.put("offsetx",-(Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx"))));
+            hashAuraTwo.put("offsetx",-(Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx"))));
+            hashAuraTwo.put("imgx",Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxl")));
+            hashAuraFinal.put("offsetx",-(Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx"))));
         }
     }
     protected void updateState() {
@@ -100,50 +77,40 @@ public abstract class Player extends GameObject {
         this.playerAction = PlayerAction.REST;
         currCharacter = character.toString().toLowerCase() + '.';
         sm = gs.getSpriteMapping();
+        hashPunch = new HashMap<>();
+        hashKick = new HashMap<>();
+        hashAuraOne = new HashMap<>();
+        hashAuraTwo = new HashMap<>();
+        hashAuraFinal = new HashMap<>();
         setTurned(number == 1 ? Turned.RIGHT : Turned.LEFT);
+
         // set Punch Parameters
-        punchOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "punch.offsety"));
+        hashPunch.put("offsety",Integer.parseInt(sm.getProperty(currCharacter + "punch.offsety")));
         // set Kick Parameters
-        kickOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "kick.offsety"));
+        hashKick.put("offsety",Integer.parseInt(sm.getProperty(currCharacter + "kick.offsety")));
         // set AuraOne Parameters
-        auraOneImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura1.imgx"));
-        auraOneImgY = Integer.parseInt(sm.getProperty(currCharacter + "aura1.imgy"));
-        auraOneSize = Integer.parseInt(sm.getProperty(currCharacter + "aura1.size"));
-        auraOneRange = Integer.parseInt(sm.getProperty(currCharacter + "aura1.range"));
-        auraOneOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsety"));
+        hashAuraOne.put("imgx",Integer.parseInt(sm.getProperty(currCharacter + "aura1.imgx")));
+        hashAuraOne.put("imgy",Integer.parseInt(sm.getProperty(currCharacter + "aura1.imgy")));
+        hashAuraOne.put("size",Integer.parseInt(sm.getProperty(currCharacter + "aura1.size")));
+        hashAuraOne.put("range",Integer.parseInt(sm.getProperty(currCharacter + "aura1.range")));
+        hashAuraOne.put("offsety",Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsety")));
         // set AuraTwo Parameters
-        auraTwoImgY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgy"));
-        auraTwoSizeX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizex"));
-        auraTwoSizeY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizey"));
-        auraTwoRange = Integer.parseInt(sm.getProperty(currCharacter + "aura2.range"));
-        auraTwoOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsety"));
-        auraTwoTick = Integer.parseInt(sm.getProperty(currCharacter + "aura2.tick"));
+        hashAuraTwo.put("imgy",Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgy")));
+        hashAuraTwo.put("sizex",Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizex")));
+        hashAuraTwo.put("sizey",Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizey")));
+        hashAuraTwo.put("range",Integer.parseInt(sm.getProperty(currCharacter + "aura2.range")));
+        hashAuraTwo.put("offsety",Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsety")));
+        hashAuraTwo.put("tick",Integer.parseInt(sm.getProperty(currCharacter + "aura2.tick")));
         // set AuraFinal Parameters
-        auraFinalImgX = Integer.parseInt(sm.getProperty(currCharacter + "final.imgx"));
-        auraFinalImgY = Integer.parseInt(sm.getProperty(currCharacter + "final.imgy"));
-        auraFinalSize = Integer.parseInt(sm.getProperty(currCharacter + "final.size"));
-        auraFinalRange = Integer.parseInt(sm.getProperty(currCharacter + "final.range"));
-        auraFinalOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "final.offsety"));
-        auraFinalDirection = sm.getProperty(currCharacter + "final.dir");
+        hashAuraFinal.put("imgx",Integer.parseInt(sm.getProperty(currCharacter + "final.imgx")));
+        hashAuraFinal.put("imgy",Integer.parseInt(sm.getProperty(currCharacter + "final.imgy")));
+        hashAuraFinal.put("size",Integer.parseInt(sm.getProperty(currCharacter + "final.size")));
+        hashAuraFinal.put("range",Integer.parseInt(sm.getProperty(currCharacter + "final.range")));
+        hashAuraFinal.put("offsety",Integer.parseInt(sm.getProperty(currCharacter + "final.offsety")));
+        hashAuraFinal.put("dir",Integer.parseInt(sm.getProperty(currCharacter + "final.dir")));
     }
 
     // getter
-
-    public int getPunchOffsetX() {
-        return punchOffsetX;
-    }
-
-    public int getPunchOffsetY() {
-        return punchOffsetY;
-    }
-
-    public int getKickOffsetX() {
-        return kickOffsetX;
-    }
-
-    public int getKickOffsetY() {
-        return kickOffsetY;
-    }
 
     public Player getTarget() {
         return target;
@@ -166,69 +133,16 @@ public abstract class Player extends GameObject {
     public int getAura() {
         return aura;
     }
-    public int getAuraOneImgX() {
-        return auraOneImgX;
+    public HashMap<String, Integer> getHashAuraOne() {
+        return hashAuraOne;
     }
-    public int getAuraOneImgY() {
-        return auraOneImgY;
+    public HashMap<String, Integer> getHashAuraTwo() {
+        return hashAuraTwo;
     }
-    public int getAuraOneSize() {
-        return auraOneSize;
+    public HashMap<String, Integer> getHashAuraFinal() {
+        return hashAuraFinal;
     }
-    public int getAuraOneRange() {
-        return auraOneRange;
-    }
-    public int getAuraOneOffsetX() {
-        return auraOneOffsetX;
-    }
-    public int getAuraOneOffsetY() {
-        return auraOneOffsetY;
-    }
-    public int getAuraTwoImgX() {
-        return auraTwoImgX;
-    }
-    public int getAuraTwoImgY() {
-        return auraTwoImgY;
-    }
-    public int getAuraTwoSizeX() {
-        return auraTwoSizeX;
-    }
-    public int getAuraTwoSizeY() {
-        return auraTwoSizeY;
-    }
-    public int getAuraTwoRange() {
-        return auraTwoRange;
-    }
-    public int getAuraTwoOffsetX() {
-        return auraTwoOffsetX;
-    }
-    public int getAuraTwoOffsetY() {
-        return auraTwoOffsetY;
-    }
-    public int getAuraTwoTick() {
-        return auraTwoTick;
-    }
-    public int getAuraFinalImgX() {
-        return auraFinalImgX;
-    }
-    public int getAuraFinalImgY() {
-        return auraFinalImgY;
-    }
-    public int getAuraFinalSize() {
-        return auraFinalSize;
-    }
-    public int getAuraFinalRange() {
-        return auraFinalRange;
-    }
-    public int getAuraFinalOffsetX() {
-        return auraFinalOffsetX;
-    }
-    public int getAuraFinalOffsetY() {
-        return auraFinalOffsetY;
-    }
-    public String getAuraFinalDirection() {
-        return auraFinalDirection;
-    }
+
     // setter
     public void setTarget(Player target) {
         this.target = target;

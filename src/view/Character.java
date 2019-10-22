@@ -89,10 +89,10 @@ public class Character extends Player implements Controls {
     private void launchAttack() {
         switch (getPlayerAction()) {
             case PUNCH:
-                if (target.isCollide(new Point(getX() + getPunchOffsetX(), getY() + getPunchOffsetY()))) target.hitted(getDamage());
+                if (target.isCollide(new Point(getX() + hashPunch.get("offsetx"), getY() + hashPunch.get("offsety")))) target.hitted(getDamage());
                 break;
             case KICK:
-                if (target.isCollide(new Point(getX() + getKickOffsetX(), getY() + getKickOffsetY()))) target.hitted(getDamage() * 2);
+                if (target.isCollide(new Point(getX() + hashKick.get("offsetx"), getY() + hashKick.get("offsety")))) target.hitted(getDamage() * 2);
                 break;
             case AURA1: new AuraOne(this); break;
             case AURA2: new AuraTwo(this); break;

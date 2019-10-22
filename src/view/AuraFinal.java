@@ -26,19 +26,19 @@ public class AuraFinal extends GameObject {
 
     public AuraFinal(Character owner) {
         super(
-                owner.getX() + owner.getAuraFinalOffsetX(),
-                owner.getY() + owner.getAuraFinalOffsetY(),
-                owner.getAuraFinalSize(),
-                owner.getAuraFinalSize(),
+                owner.getX() + owner.getHashAuraFinal().get("offsetx"),
+                owner.getY() + owner.getHashAuraFinal().get("offsety"),
+                owner.getHashAuraFinal().get("size"),
+                owner.getHashAuraFinal().get("size"),
                 owner.getVelocity() + 10,
                 Direction.STOP
         );
         this.target = owner.getTarget();
         this.damage = owner.getDamage() * 5;
-        this.viewX = owner.getAuraFinalImgX();
-        this.viewY = owner.getAuraFinalImgY();
-        this.size = owner.getAuraFinalSize();
-        this.range = owner.getAuraFinalRange();
+        this.viewX = owner.getHashAuraFinal().get("imgx");
+        this.viewY = owner.getHashAuraFinal().get("imgy");
+        this.size = owner.getHashAuraFinal().get("size");
+        this.range = owner.getHashAuraFinal().get("range");
         this.lastFrame = System.nanoTime();
         this.loading = true;
         this.finish = false;
@@ -48,7 +48,7 @@ public class AuraFinal extends GameObject {
         imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
         moveImage();
         gs.getAuraAttacks().getChildren().add(imageView);
-        if (owner.getAuraFinalDirection().equals("oblique")) {
+        if (owner.getHashAuraFinal().get("dir") != 0) {
             toSet = owner.getTurned() == Turned.RIGHT ? Direction.DOWN_RIGHT : Direction.DOWN_LEFT;
         } else {
             toSet = owner.getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT;

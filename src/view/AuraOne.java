@@ -8,6 +8,8 @@ import model.Player;
 import model.enums.Direction;
 import model.enums.Turned;
 
+import java.util.HashMap;
+
 public class AuraOne extends GameObject {
 
     private Player target;
@@ -19,24 +21,24 @@ public class AuraOne extends GameObject {
 
     public AuraOne(Character owner) {
         super(
-                owner.getX() + owner.getAuraOneOffsetX(),
-                owner.getY() + owner.getAuraOneOffsetY(),
-                owner.getAuraOneSize(),
-                owner.getAuraOneSize(),
+                owner.getX() + owner.getHashAuraOne().get("offsetx"),
+                owner.getY() + owner.getHashAuraOne().get("offsety"),
+                owner.getHashAuraOne().get("size"),
+                owner.getHashAuraOne().get("size"),
                 owner.getVelocity() + 10,
                 owner.getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT
         );
         this.target = owner.getTarget();
         this.damage = owner.getDamage() * 3;
-        this.range = owner.getAuraOneRange();
+        this.range = owner.getHashAuraOne().get("range");
         this.distance = 0;
         this.finish = false;
         imageView = new ImageView(owner.getSprite());
         imageView.setViewport(new Rectangle2D(
-                owner.getAuraOneImgX(),
-                owner.getAuraOneImgY(),
-                owner.getAuraOneSize(),
-                owner.getAuraOneSize()
+                owner.getHashAuraOne().get("imgx"),
+                owner.getHashAuraOne().get("imgy"),
+                owner.getHashAuraOne().get("size"),
+                owner.getHashAuraOne().get("size")
         ));
         moveImage();
         gs.getAuraAttacks().getChildren().add(imageView);

@@ -24,21 +24,21 @@ public class AuraTwo extends GameObject {
 
     public AuraTwo(Character owner) {
         super(
-                owner.getX() + owner.getAuraTwoOffsetX(),
-                owner.getY() + owner.getAuraTwoOffsetY(),
-                owner.getAuraTwoSizeY(),
-                owner.getAuraTwoSizeX(),
+                owner.getX() + owner.getHashAuraTwo().get("offsetx"),
+                owner.getY() + owner.getHashAuraTwo().get("offsety"),
+                owner.getHashAuraTwo().get("sizey"),
+                owner.getHashAuraTwo().get("sizex"),
                 owner.getVelocity() + 6,
                 owner.getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT
         );
         this.damage = owner.getDamage() * 4;
         this.target = owner.getTarget();
-        this.viewX = owner.getAuraTwoImgX();
-        this.viewY = owner.getAuraTwoImgY();
-        this.sizeX = owner.getAuraTwoSizeX();
-        this.sizeY = owner.getAuraTwoSizeY();
-        this.range = owner.getAuraTwoRange();
-        this.tick = owner.getAuraTwoTick();
+        this.viewX = owner.getHashAuraTwo().get("imgx");
+        this.viewY = owner.getHashAuraTwo().get("imgy");
+        this.sizeX = owner.getHashAuraTwo().get("sizex");
+        this.sizeY = owner.getHashAuraTwo().get("sizey");
+        this.range = owner.getHashAuraTwo().get("range");
+        this.tick = owner.getHashAuraTwo().get("tick");
         this.distance = 0;
         this.countTick = 0;
         this.finish = false;
