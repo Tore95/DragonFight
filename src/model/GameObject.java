@@ -46,10 +46,6 @@ public abstract class GameObject {
         gs.getToAddObjects().add(this);
     }
 
-    public GameObject(double x, double y, int height, int width) {
-        this(x,y,height,width,0,Direction.STOP);
-    }
-
     public double getX() {
         return position.x;
     }

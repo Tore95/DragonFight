@@ -314,7 +314,7 @@ public abstract class Player extends GameObject {
     public void update() {
         super.update();
         updateState();
-        if (playerAction != PlayerAction.REST) setVelocity(0);
-        else if (getVelocity() == 0) setVelocity(10);
+        //if (playerAction != PlayerAction.REST) setVelocity(0);
+        //else if (getVelocity() == 0) setVelocity(10);
     }
 }
