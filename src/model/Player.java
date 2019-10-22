@@ -23,10 +23,13 @@ public abstract class Player extends GameObject {
     private int damage;
     private int life;
     private int aura;
+    // Punch Parameters
+    private int punchOffsetX;
+    private int punchOffsetY;
+    // Kick Parameters
+    private int kickOffsetX;
+    private int kickOffsetY;
     // AuraOne Parameters
-    private int auraOneRow;
-    private int auraOneFrames;
-    private int auraOneAttackFrame;
     private int auraOneImgX;
     private int auraOneImgY;
     private int auraOneSize;
@@ -34,9 +37,6 @@ public abstract class Player extends GameObject {
     private int auraOneOffsetX;
     private int auraOneOffsetY;
     // AuraTwo Parameters
-    private int auraTwoRow;
-    private int auraTwoFrames;
-    private int auraTwoAttackFrame;
     private int auraTwoImgX;
     private int auraTwoImgY;
     private int auraTwoSizeX;
@@ -46,9 +46,6 @@ public abstract class Player extends GameObject {
     private int auraTwoOffsetY;
     private int auraTwoTick;
     // AuraFinal Parameters
-    private int auraFinalRow;
-    private int auraFinalFrames;
-    private int auraFinalAttackFrame;
     private int auraFinalImgX;
     private int auraFinalImgY;
     private int auraFinalSize;
@@ -60,37 +57,38 @@ public abstract class Player extends GameObject {
     private void setTurned(Turned turned) {
         this.turned = turned;
         if (turned == Turned.RIGHT) {
+            punchOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "punch.offsetxr"));
+            kickOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "kick.offsetxr"));
             auraOneOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx"));
             auraTwoOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx"));
             auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxr"));
             auraFinalOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx"));
         } else {
+            punchOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "punch.offsetxl"));
+            kickOffsetX = Integer.parseInt(sm.getProperty(currCharacter + "kick.offsetxl"));
             auraOneOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsetx")));
             auraTwoOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsetx")));
             auraTwoImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgxl"));
             auraFinalOffsetX = -(Integer.parseInt(sm.getProperty(currCharacter + "final.offsetx")));
         }
     }
-    private boolean updateState() {
-        try {
-            if (right && top) return setDirection(Direction.UP_RIGHT);
-            if (right && bottom) return setDirection(Direction.DOWN_RIGHT);
-            if (left && top) return setDirection(Direction.UP_LEFT);
-            if (left && bottom) return setDirection(Direction.DOWN_LEFT);
-            if (right) return setDirection(Direction.RIGHT);
-            if (left) return setDirection(Direction.LEFT);
-            if (top) return setDirection(Direction.UP);
-            if (bottom) return setDirection(Direction.DOWN);
-            return setDirection(Direction.STOP);
-        } finally {
-            switch (getDirection()) {
-                case DOWN_LEFT:
-                case LEFT:
-                case UP_LEFT: setTurned(Turned.LEFT); break;
-                case DOWN_RIGHT:
-                case RIGHT:
-                case UP_RIGHT: setTurned(Turned.RIGHT); break;
-            }
+    protected void updateState() {
+        if (right && top) setDirection(Direction.UP_RIGHT);
+        else if (right && bottom) setDirection(Direction.DOWN_RIGHT);
+        else if (left && top) setDirection(Direction.UP_LEFT);
+        else if (left && bottom) setDirection(Direction.DOWN_LEFT);
+        else if (right) setDirection(Direction.RIGHT);
+        else if (left) setDirection(Direction.LEFT);
+        else if (top) setDirection(Direction.UP);
+        else if (bottom) setDirection(Direction.DOWN);
+        else setDirection(Direction.STOP);
+        switch (getDirection()) {
+            case DOWN_LEFT:
+            case LEFT:
+            case UP_LEFT: setTurned(Turned.LEFT); break;
+            case DOWN_RIGHT:
+            case RIGHT:
+            case UP_RIGHT: setTurned(Turned.RIGHT); break;
         }
     }
 
@@ -103,19 +101,17 @@ public abstract class Player extends GameObject {
         currCharacter = character.toString().toLowerCase() + '.';
         sm = gs.getSpriteMapping();
         setTurned(number == 1 ? Turned.RIGHT : Turned.LEFT);
+        // set Punch Parameters
+        punchOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "punch.offsety"));
+        // set Kick Parameters
+        kickOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "kick.offsety"));
         // set AuraOne Parameters
-        auraOneRow = Integer.parseInt(sm.getProperty(currCharacter + "aura1.row"));
-        auraOneFrames = Integer.parseInt(sm.getProperty(currCharacter + "aura1.frames"));
-        auraOneAttackFrame = Integer.parseInt(sm.getProperty(currCharacter + "aura1.attackframe"));
         auraOneImgX = Integer.parseInt(sm.getProperty(currCharacter + "aura1.imgx"));
         auraOneImgY = Integer.parseInt(sm.getProperty(currCharacter + "aura1.imgy"));
         auraOneSize = Integer.parseInt(sm.getProperty(currCharacter + "aura1.size"));
         auraOneRange = Integer.parseInt(sm.getProperty(currCharacter + "aura1.range"));
         auraOneOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "aura1.offsety"));
         // set AuraTwo Parameters
-        auraTwoRow = Integer.parseInt(sm.getProperty(currCharacter + "aura2.row"));
-        auraTwoFrames = Integer.parseInt(sm.getProperty(currCharacter + "aura2.frames"));
-        auraTwoAttackFrame = Integer.parseInt(sm.getProperty(currCharacter + "aura2.attackframe"));
         auraTwoImgY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.imgy"));
         auraTwoSizeX = Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizex"));
         auraTwoSizeY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.sizey"));
@@ -123,9 +119,6 @@ public abstract class Player extends GameObject {
         auraTwoOffsetY = Integer.parseInt(sm.getProperty(currCharacter + "aura2.offsety"));
         auraTwoTick = Integer.parseInt(sm.getProperty(currCharacter + "aura2.tick"));
         // set AuraFinal Parameters
-        auraFinalRow = Integer.parseInt(sm.getProperty(currCharacter + "final.row"));
-        auraFinalFrames = Integer.parseInt(sm.getProperty(currCharacter + "final.frames"));
-        auraFinalAttackFrame = Integer.parseInt(sm.getProperty(currCharacter + "final.attackframe"));
         auraFinalImgX = Integer.parseInt(sm.getProperty(currCharacter + "final.imgx"));
         auraFinalImgY = Integer.parseInt(sm.getProperty(currCharacter + "final.imgy"));
         auraFinalSize = Integer.parseInt(sm.getProperty(currCharacter + "final.size"));
@@ -135,6 +128,23 @@ public abstract class Player extends GameObject {
     }
 
     // getter
+
+    public int getPunchOffsetX() {
+        return punchOffsetX;
+    }
+
+    public int getPunchOffsetY() {
+        return punchOffsetY;
+    }
+
+    public int getKickOffsetX() {
+        return kickOffsetX;
+    }
+
+    public int getKickOffsetY() {
+        return kickOffsetY;
+    }
+
     public Player getTarget() {
         return target;
     }
@@ -156,15 +166,6 @@ public abstract class Player extends GameObject {
     public int getAura() {
         return aura;
     }
-    public int getAuraOneRow() {
-        return auraOneRow;
-    }
-    public int getAuraOneFrames() {
-        return auraOneFrames;
-    }
-    public int getAuraOneAttackFrame() {
-        return auraOneAttackFrame;
-    }
     public int getAuraOneImgX() {
         return auraOneImgX;
     }
@@ -182,15 +183,6 @@ public abstract class Player extends GameObject {
     }
     public int getAuraOneOffsetY() {
         return auraOneOffsetY;
-    }
-    public int getAuraTwoRow() {
-        return auraTwoRow;
-    }
-    public int getAuraTwoFrames() {
-        return auraTwoFrames;
-    }
-    public int getAuraTwoAttackFrame() {
-        return auraTwoAttackFrame;
     }
     public int getAuraTwoImgX() {
         return auraTwoImgX;
@@ -215,15 +207,6 @@ public abstract class Player extends GameObject {
     }
     public int getAuraTwoTick() {
         return auraTwoTick;
-    }
-    public int getAuraFinalRow() {
-        return auraFinalRow;
-    }
-    public int getAuraFinalFrames() {
-        return auraFinalFrames;
-    }
-    public int getAuraFinalAttackFrame() {
-        return auraFinalAttackFrame;
     }
     public int getAuraFinalImgX() {
         return auraFinalImgX;
@@ -251,9 +234,12 @@ public abstract class Player extends GameObject {
         this.target = target;
     }
     public boolean setPlayerAction(PlayerAction playerAction) {
-        if (this.playerAction == playerAction) return false;
-        else this.playerAction = playerAction;
+        if (this.playerAction == playerAction || this.playerAction != PlayerAction.REST) return false;
+        this.playerAction = playerAction;
         return true;
+    }
+    public void forcedSetPlayerAction(PlayerAction playerAction) {
+        this.playerAction = playerAction;
     }
     public void setDamage(int damage) {
         this.damage = damage;
@@ -289,32 +275,24 @@ public abstract class Player extends GameObject {
         subLife(damage);
     }
 
-    public boolean setRight(boolean right) {
+    protected boolean setRight(boolean right) {
         if (this.right == right) return false;
         this.right = right;
-        return updateState();
+        return true;
     }
-    public boolean setLeft(boolean left) {
+    protected boolean setLeft(boolean left) {
         if (this.left == left) return false;
         this.left = left;
-        return updateState();
+        return true;
     }
-    public boolean setTop(boolean top) {
+    protected boolean setTop(boolean top) {
         if (this.top == top) return false;
         this.top = top;
-        return updateState();
+        return true;
     }
-    public boolean setBottom(boolean bottom) {
+    protected boolean setBottom(boolean bottom) {
         if (this.bottom == bottom) return false;
         this.bottom = bottom;
-        return updateState();
-    }
-
-    @Override
-    public void update() {
-        super.update();
-        updateState();
-        //if (playerAction != PlayerAction.REST) setVelocity(0);
-        //else if (getVelocity() == 0) setVelocity(10);
+        return true;
     }
 }

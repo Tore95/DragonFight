@@ -6,12 +6,14 @@ import javafx.scene.image.ImageView;
 import model.Controls;
 import model.Player;
 import model.enums.Characters;
+import model.enums.Direction;
 import model.enums.PlayerAction;
 import model.enums.Turned;
+import model.shape.Point;
 
 public class Character extends Player implements Controls {
 
-    private static final int frameSize = 128;
+    private static final int viewportSize = 128;
 
     private ImageView imageView;
     private Image sprite;
@@ -40,8 +42,9 @@ public class Character extends Player implements Controls {
         return sprite;
     }
 
-    public void direction() {
+    private void direction() {
         if (getPlayerAction() != PlayerAction.REST) return;
+        updateState();
         String currDirection = getDirection().toString().toLowerCase() + '.';
         currRow = Integer.parseInt(sm.getProperty(currCharacter + currDirection + "row"));
         rowFrames = Integer.parseInt(sm.getProperty(currCharacter + currDirection + "frames"));
@@ -49,8 +52,8 @@ public class Character extends Player implements Controls {
         currRow = turned == Turned.RIGHT ? currRow : currRow + 1;
     }
 
-    public void action() {
-        if (lockedFrames != -1) return;
+    private void action() {
+        setDirection(Direction.STOP);
         String currAction = getPlayerAction().toString().toLowerCase() + '.';
         currRow = Integer.parseInt(sm.getProperty(currCharacter + currAction + "row"));
         rowFrames = Integer.parseInt(sm.getProperty(currCharacter + currAction + "frames"));
@@ -68,7 +71,7 @@ public class Character extends Player implements Controls {
         int frameJump = (int) Math.floor((double) (System.nanoTime() - lastFrame) / (double)(1000000000L / gs.getSpriteFPS()));
         if (frameJump >= 1) {
             lastFrame = System.nanoTime();
-            imageView.setViewport(new Rectangle2D(currCol * frameSize, currRow * frameSize, frameSize, frameSize));
+            imageView.setViewport(new Rectangle2D(currCol * viewportSize, currRow * viewportSize, viewportSize, viewportSize));
             if (lockedFrames < 0) {
                 currCol = (currCol + 1) % rowFrames;
             } else if (lockedFrames > 0) {
@@ -77,7 +80,7 @@ public class Character extends Player implements Controls {
                 lockedFrames -= 1;
             } else {
                 lockedFrames -= 1;
-                setPlayerAction(PlayerAction.REST);
+                forcedSetPlayerAction(PlayerAction.REST);
                 direction();
             }
         }
@@ -86,7 +89,11 @@ public class Character extends Player implements Controls {
     private void launchAttack() {
         switch (getPlayerAction()) {
             case PUNCH:
-            case KICK: if (isCollide(target)) target.hitted(getDamage()); break;
+                if (target.isCollide(new Point(getX() + getPunchOffsetX(), getY() + getPunchOffsetY()))) target.hitted(getDamage());
+                break;
+            case KICK:
+                if (target.isCollide(new Point(getX() + getKickOffsetX(), getY() + getKickOffsetY()))) target.hitted(getDamage() * 2);
+                break;
             case AURA1: new AuraOne(this); break;
             case AURA2: new AuraTwo(this); break;
             case FINAL: new AuraFinal(this); break;
@@ -94,23 +101,23 @@ public class Character extends Player implements Controls {
     }
 
     @Override
-    public boolean goUp(boolean val) {
-        return setTop(val);
+    public void goUp(boolean val) {
+        if (setTop(val)) direction();
     }
 
     @Override
-    public boolean goDown(boolean val) {
-        return setBottom(val);
+    public void goDown(boolean val) {
+        if (setBottom(val)) direction();
     }
 
     @Override
-    public boolean goRight(boolean val) {
-        return setRight(val);
+    public void goRight(boolean val) {
+        if (setRight(val)) direction();
     }
 
     @Override
-    public boolean goLeft(boolean val) {
-        return setLeft(val);
+    public void goLeft(boolean val) {
+        if (setLeft(val)) direction();
     }
 
     @Override

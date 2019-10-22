@@ -38,7 +38,7 @@ public class Ellipse {
     public void setXc(double x) { center.x = x; }
     public void setYc(double y) { center.y = y; }
 
-    private boolean isInside(Point p) {
+    public boolean isInside(Point p) {
         return (
             (Math.pow(p.x - center.x,2)/Math.pow(a,2)) +
             (Math.pow(p.y - center.y,2)/Math.pow(b,2))

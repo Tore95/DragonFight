@@ -67,7 +67,6 @@ public class AuraFinal extends GameObject {
         int frameJump = (int) Math.floor((double) (System.nanoTime() - lastFrame) / (double)(1000000000L / gs.getSpriteFPS()));
         if (frameJump >= 1) {
             lastFrame = System.nanoTime();
-
             if (!finish) {
                 if (loading) {
                     viewX += size;
@@ -89,6 +88,4 @@ public class AuraFinal extends GameObject {
             }
         }
     }
-
-
 }

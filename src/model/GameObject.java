@@ -66,14 +66,11 @@ public abstract class GameObject {
     public Direction getDirection() {
         return direction;
     }
-
     public void setVelocity(double velocity) {
         this.velocity = velocity;
     }
-    public boolean setDirection(Direction direction) {
-        if (this.direction == direction) return false;
+    public void setDirection(Direction direction) {
         this.direction = direction;
-        return true;
     }
 
     public void move() {
@@ -115,5 +112,8 @@ public abstract class GameObject {
 
     public boolean isCollide(GameObject o) {
         return hitbox.intersect(o.getHitbox());
+    }
+    public boolean isCollide(Point p) {
+        return hitbox.isInside(p);
     }
 }
