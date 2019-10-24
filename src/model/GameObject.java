@@ -34,6 +34,37 @@ public abstract class GameObject {
     }
 
     public abstract void draw();
+    private void move() {
+        switch (direction) {
+            case UP:
+                subY(velocity);
+                break;
+            case UP_RIGHT:
+                subY(velocity);
+                addX(velocity);
+                break;
+            case UP_LEFT:
+                subY(velocity);
+                subX(velocity);
+                break;
+            case RIGHT:
+                addX(velocity);
+                break;
+            case LEFT:
+                subX(velocity);
+                break;
+            case DOWN_RIGHT:
+                addY(velocity);
+                addX(velocity);
+                break;
+            case DOWN_LEFT:
+                addY(velocity);
+                subX(velocity);
+                break;
+            case DOWN:
+                addY(velocity);
+        }
+    }
 
     public GameObject(double x, double y, int height, int width, double velocity, Direction direction) {
         gs = GameStatus.getInstance();
@@ -71,38 +102,6 @@ public abstract class GameObject {
     }
     public void setDirection(Direction direction) {
         this.direction = direction;
-    }
-
-    public void move() {
-        switch (direction) {
-            case UP:
-                subY(velocity);
-                break;
-            case UP_RIGHT:
-                subY(velocity);
-                addX(velocity);
-                break;
-            case UP_LEFT:
-                subY(velocity);
-                subX(velocity);
-                break;
-            case RIGHT:
-                addX(velocity);
-                break;
-            case LEFT:
-                subX(velocity);
-                break;
-            case DOWN_RIGHT:
-                addY(velocity);
-                addX(velocity);
-                break;
-            case DOWN_LEFT:
-                addY(velocity);
-                subX(velocity);
-                break;
-            case DOWN:
-                addY(velocity);
-        }
     }
 
     public void update() {

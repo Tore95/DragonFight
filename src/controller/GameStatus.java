@@ -60,6 +60,7 @@ public class GameStatus {
     public Properties getSpriteMapping() {
         return spriteMapping;
     }
+
     public static GameStatus getInstance() {
         if (instance == null) instance = new GameStatus();
         return instance;

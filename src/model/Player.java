@@ -19,7 +19,6 @@ public abstract class Player extends GameObject {
     private int life;
     private int aura;
     private PlayerAction playerAction;
-
     protected Player target;
     protected Turned turned;
     protected String currCharacter;
@@ -83,7 +82,6 @@ public abstract class Player extends GameObject {
         hashAuraTwo = new HashMap<>();
         hashAuraFinal = new HashMap<>();
         setTurned(number == 1 ? Turned.RIGHT : Turned.LEFT);
-
         // set Punch Parameters
         hashPunch.put("offsety",Integer.parseInt(sm.getProperty(currCharacter + "punch.offsety")));
         // set Kick Parameters
