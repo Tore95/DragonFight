@@ -1,6 +1,6 @@
-package view;
+package old.view;
 
-import controller.GameStatus;
+import old.controller.GameStatus;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

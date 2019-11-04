@@ -1,9 +1,8 @@
-package controller;
+package old.controller;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import model.GameObject;
+import old.model.GameObject;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -89,7 +88,7 @@ public class GameStatus {
 
         try {
             spriteMapping = new Properties();
-            spriteMapping.load(getClass().getClassLoader().getResourceAsStream("controller/spriteMapping.properties"));
+            spriteMapping.load(getClass().getClassLoader().getResourceAsStream("old/controller/spriteMapping.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

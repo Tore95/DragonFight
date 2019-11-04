@@ -1,13 +1,10 @@
-package model;
+package model.baseObjs;
 
-import controller.GameStatus;
+import javafx.scene.image.ImageView;
+import model.GlobalManager;
 import model.enums.Direction;
-import model.shape.Ellipse;
-import model.shape.Point;
 
 public abstract class GameObject {
-
-    protected GameStatus gs;
 
     private Point position;
     private Ellipse hitbox;
@@ -33,8 +30,59 @@ public abstract class GameObject {
         hitbox.setYc(position.y);
     }
 
+    protected GlobalManager globalManager;
+    protected ImageView imageView;
+
     public abstract void draw();
-    private void move() {
+
+    public GameObject(double x, double y, int height, int width, double velocity, Direction direction) {
+        globalManager = GlobalManager.getInstance();
+        position = new Point(x,y);
+        hitbox = new Ellipse(x,y,width,height);
+        this.height = height;
+        this.width = width;
+        this.velocity = velocity;
+        this.direction = direction;
+        globalManager.getToAddObjects().add(this);
+    }
+
+    public double getX() {
+        return position.x;
+    }
+
+    public double getY() {
+        return position.y;
+    }
+
+    public Point getPosition() { return position; }
+
+    public Ellipse getHitbox() { return hitbox; }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public double getVelocity() {
+        return velocity;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setVelocity(double velocity) {
+        this.velocity = velocity;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public void move() {
         switch (direction) {
             case UP:
                 subY(velocity);
@@ -66,53 +114,12 @@ public abstract class GameObject {
         }
     }
 
-    public GameObject(double x, double y, int height, int width, double velocity, Direction direction) {
-        gs = GameStatus.getInstance();
-        position = new Point(x,y);
-        hitbox = new Ellipse(x,y,width,height);
-        this.height = height;
-        this.width = width;
-        this.velocity = velocity;
-        this.direction = direction;
-        gs.getToAddObjects().add(this);
-    }
-
-    public double getX() {
-        return position.x;
-    }
-    public double getY() {
-        return position.y;
-    }
-    public Point getPosition() { return position; }
-    public Ellipse getHitbox() { return hitbox; }
-    public int getHeight() {
-        return height;
-    }
-    public int getWidth() {
-        return width;
-    }
-    public double getVelocity() {
-        return velocity;
-    }
-    public Direction getDirection() {
-        return direction;
-    }
-    public void setVelocity(double velocity) {
-        this.velocity = velocity;
-    }
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    public void update() {
-        move();
-        draw();
-    }
-
     public boolean isCollide(GameObject o) {
         return hitbox.intersect(o.getHitbox());
     }
+
     public boolean isCollide(Point p) {
         return hitbox.isInside(p);
     }
+
 }

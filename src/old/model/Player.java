@@ -1,9 +1,9 @@
-package model;
+package old.model;
 
-import model.enums.Characters;
-import model.enums.Direction;
-import model.enums.PlayerAction;
-import model.enums.Turned;
+import old.model.enums.Characters;
+import old.model.enums.Direction;
+import old.model.enums.PlayerAction;
+import old.model.enums.Turned;
 
 import java.util.HashMap;
 import java.util.Properties;
@@ -109,7 +109,6 @@ public abstract class Player extends GameObject {
     }
 
     // getter
-
     public Player getTarget() {
         return target;
     }

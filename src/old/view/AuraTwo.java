@@ -1,11 +1,11 @@
-package view;
+package old.view;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
-import model.GameObject;
-import model.Player;
-import model.enums.Direction;
-import model.enums.Turned;
+import old.model.GameObject;
+import old.model.Player;
+import old.model.enums.Direction;
+import old.model.enums.Turned;
 
 public class AuraTwo extends GameObject {
 

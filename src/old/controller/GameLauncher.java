@@ -1,11 +1,11 @@
-package controller;
+package old.controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.enums.Characters;
-import view.Character;
-import view.Map;
+import old.model.enums.Characters;
+import old.view.Character;
+import old.view.Map;
 
 public class GameLauncher extends Application {
 

@@ -1,15 +1,15 @@
-package view;
+package old.view;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.Controls;
-import model.Player;
-import model.enums.Characters;
-import model.enums.Direction;
-import model.enums.PlayerAction;
-import model.enums.Turned;
-import model.shape.Point;
+import old.model.Controls;
+import old.model.Player;
+import old.model.enums.Characters;
+import old.model.enums.Direction;
+import old.model.enums.PlayerAction;
+import old.model.enums.Turned;
+import old.model.shape.Point;
 
 public class Character extends Player implements Controls {
 

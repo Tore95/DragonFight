@@ -1,4 +1,4 @@
-package model;
+package old.model;
 
 public interface Controls {
     void goUp(boolean val);

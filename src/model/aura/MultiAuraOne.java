@@ -1,25 +1,21 @@
-package view;
+package model.aura;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.GameObject;
-import model.Player;
+import model.baseObjs.GameObject;
+import model.baseObjs.Player;
 import model.enums.Direction;
 import model.enums.Turned;
 
-import java.util.HashMap;
-
-public class AuraOne extends GameObject {
+public class MultiAuraOne extends GameObject {
 
     private Player target;
-    private ImageView imageView;
     private int damage;
     private int distance;
     private int range;
     private boolean finish;
 
-    public AuraOne(Character owner) {
+    public MultiAuraOne(Player owner) {
         super(
                 owner.getX() + owner.getHashAuraOne().get("offsetx"),
                 owner.getY() + owner.getHashAuraOne().get("offsety"),
@@ -41,7 +37,7 @@ public class AuraOne extends GameObject {
                 owner.getHashAuraOne().get("size")
         ));
         moveImage();
-        gs.getAuraAttacks().getChildren().add(imageView);
+        globalManager.getAuraAttacks().getChildren().add(imageView);
     }
 
     private void moveImage() {
@@ -51,16 +47,21 @@ public class AuraOne extends GameObject {
     }
 
     @Override
+    public void move() {
+        super.move();
+        moveImage();
+    }
+
+    @Override
     public void draw() {
         if (!finish) {
-            moveImage();
             if (isCollide(target)) {
                 target.hitted(damage);
                 finish = true;
             } else if (distance > range) finish = true;
         } else {
-            gs.getAuraAttacks().getChildren().remove(imageView);
-            gs.getToRemoveObjects().add(this);
+            globalManager.getAuraAttacks().getChildren().remove(imageView);
+            globalManager.getToRemoveObjects().add(this);
         }
     }
 }
