@@ -1,6 +1,10 @@
 package model.baseObjs;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import model.enums.Characters;
 import model.enums.Direction;
 import model.enums.PlayerAction;
@@ -10,6 +14,15 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public abstract class Player extends GameObject {
+
+    // sprite
+    private static final int viewportSize = 128;
+    private Image sprite;
+    private int currCol;
+    private int currRow;
+    private int rowFrames;
+    private int launchAttackFrame;
+    private int lockedFrames;
 
     // movement utilities
     private boolean right = false;
@@ -22,17 +35,17 @@ public abstract class Player extends GameObject {
     private int life;
     private int aura;
     private PlayerAction playerAction;
-    protected Player target;
-    protected Turned turned;
-    protected String currCharacter;
-    protected Properties spriteMapping;
+    private Player target;
+    private Turned turned;
+    private String currCharacter;
+    private Properties spriteMapping;
 
     // Properties HashMaps
+    private HashMap<String,Integer> hashAuraOne;
+    private HashMap<String,Integer> hashAuraTwo;
+    private HashMap<String,Integer> hashAuraFinal;
     protected HashMap<String,Integer> hashPunch;
     protected HashMap<String,Integer> hashKick;
-    protected HashMap<String,Integer> hashAuraOne;
-    protected HashMap<String,Integer> hashAuraTwo;
-    protected HashMap<String,Integer> hashAuraFinal;
 
     private void setTurned(Turned turned) {
         this.turned = turned;
@@ -52,8 +65,7 @@ public abstract class Player extends GameObject {
             hashAuraFinal.put("offsetx",-(Integer.parseInt(spriteMapping.getProperty(currCharacter + "final.offsetx"))));
         }
     }
-
-    protected void updateState() {
+    private void updateState() {
         if (right && top) setDirection(Direction.UP_RIGHT);
         else if (right && bottom) setDirection(Direction.DOWN_RIGHT);
         else if (left && top) setDirection(Direction.UP_LEFT);
@@ -72,29 +84,82 @@ public abstract class Player extends GameObject {
             case UP_RIGHT: setTurned(Turned.RIGHT); break;
         }
     }
-    protected boolean setRight(boolean right) {
+    private boolean setRight(boolean right) {
         if (this.right == right) return false;
         this.right = right;
         return true;
     }
-    protected boolean setLeft(boolean left) {
+    private boolean setLeft(boolean left) {
         if (this.left == left) return false;
         this.left = left;
         return true;
     }
-    protected boolean setTop(boolean top) {
+    private boolean setTop(boolean top) {
         if (this.top == top) return false;
         this.top = top;
         return true;
     }
-    protected boolean setBottom(boolean bottom) {
+    private boolean setBottom(boolean bottom) {
         if (this.bottom == bottom) return false;
         this.bottom = bottom;
         return true;
     }
 
-    public Player(int number, Characters character) {
-        super(number == 1 ? 164 : 1064, 564, 128, 64, 10, Direction.STOP);
+    protected void goUp(boolean val) {
+        if (setTop(val)) direction();
+    }
+    protected void goDown(boolean val) {
+        if (setBottom(val)) direction();
+    }
+    protected void goRight(boolean val) {
+        if (setRight(val)) direction();
+    }
+    protected void goLeft(boolean val) {
+        if (setLeft(val)) direction();
+    }
+    protected void punch() {
+        if (setPlayerAction(PlayerAction.PUNCH)) action();
+    }
+    protected void kick() {
+        if (setPlayerAction(PlayerAction.KICK)) action();
+    }
+    protected void auraOne() {
+        if (setPlayerAction(PlayerAction.AURA1)) action();
+    }
+    protected void auraTwo() {
+        if (setPlayerAction(PlayerAction.AURA2)) action();
+    }
+    protected void auraFinal() {
+        if (setPlayerAction(PlayerAction.FINAL)) action();
+    }
+
+    protected abstract void launchAttack();
+    public abstract void pressedKeyEvent(KeyEvent ev);
+    public abstract void releasedKeyEvent(KeyEvent ev);
+
+    private void direction() {
+        if (getPlayerAction() != PlayerAction.REST) return;
+        updateState();
+        String currDirection = getDirection().toString().toLowerCase() + '.';
+        currRow = Integer.parseInt(spriteMapping.getProperty(currCharacter + currDirection + "row"));
+        rowFrames = Integer.parseInt(spriteMapping.getProperty(currCharacter + currDirection + "frames"));
+        currCol = 0;
+        currRow = turned == Turned.RIGHT ? currRow : currRow + 1;
+    }
+
+    private void action() {
+        setDirection(Direction.STOP);
+        String currAction = getPlayerAction().toString().toLowerCase() + '.';
+        currRow = Integer.parseInt(spriteMapping.getProperty(currCharacter + currAction + "row"));
+        rowFrames = Integer.parseInt(spriteMapping.getProperty(currCharacter + currAction + "frames"));
+        launchAttackFrame = Integer.parseInt(spriteMapping.getProperty(currCharacter + currAction + "attackframe"));
+        currCol = 0;
+        currRow = turned == Turned.RIGHT ? currRow : currRow + 1;
+        lockedFrames = rowFrames - 1;
+    }
+
+    public Player(double positionX, Turned t, Characters character) {
+        super(positionX, 564d, 128, 64, 10d, Direction.STOP);
         this.damage = 2;
         this.life = 100;
         this.aura = 100;
@@ -106,7 +171,7 @@ public abstract class Player extends GameObject {
         hashAuraOne = new HashMap<>();
         hashAuraTwo = new HashMap<>();
         hashAuraFinal = new HashMap<>();
-        setTurned(number == 1 ? Turned.RIGHT : Turned.LEFT);
+        setTurned(t);
         // set Punch Parameters
         hashPunch.put("offsety",Integer.parseInt(spriteMapping.getProperty(currCharacter + "punch.offsety")));
         // set Kick Parameters
@@ -131,6 +196,17 @@ public abstract class Player extends GameObject {
         hashAuraFinal.put("range",Integer.parseInt(spriteMapping.getProperty(currCharacter + "final.range")));
         hashAuraFinal.put("offsety",Integer.parseInt(spriteMapping.getProperty(currCharacter + "final.offsety")));
         hashAuraFinal.put("dir",Integer.parseInt(spriteMapping.getProperty(currCharacter + "final.dir")));
+        // set sprite
+        sprite = new Image(spriteMapping.getProperty(currCharacter + "imgurl"));
+        imageView = new ImageView(sprite);
+        currCol = 0;
+        currRow = 0;
+        rowFrames = 0;
+        launchAttackFrame = -1;
+        lockedFrames = -1;
+        direction();
+        globalManager.getPlayers().getChildren().add(imageView);
+
     }
 
     // getter
@@ -165,8 +241,7 @@ public abstract class Player extends GameObject {
         return hashAuraFinal;
     }
     public Image getSprite() {
-        //TODO
-        return new Image("");
+        return sprite;
     }
 
     // setter
@@ -196,6 +271,7 @@ public abstract class Player extends GameObject {
         if (damage <= 3) playerAction = PlayerAction.SOFT_HITTED;
         else playerAction = PlayerAction.HARD_HITTED;
         this.life -= damage;
+        action();
     }
     public void addLife(int care) {
         this.life += care;
@@ -212,4 +288,27 @@ public abstract class Player extends GameObject {
         return life <= 0;
     }
 
+    // sprite
+    @Override
+    public void move() {
+        super.move();
+        imageView.setX(getX() - getWidth());
+        imageView.setY(getY() - (getHeight() / 2d));
+    }
+
+    @Override
+    public void draw() {
+        imageView.setViewport(new Rectangle2D(currCol * viewportSize, currRow * viewportSize, viewportSize, viewportSize));
+        if (lockedFrames < 0) {
+            currCol = (currCol + 1) % rowFrames;
+        } else if (lockedFrames > 0) {
+            if (currCol == launchAttackFrame) launchAttack();
+            currCol += 1;
+            lockedFrames -= 1;
+        } else {
+            lockedFrames -= 1;
+            forceSetPlayerAction(PlayerAction.REST);
+            direction();
+        }
+    }
 }

@@ -46,14 +46,7 @@ public class MultiAuraOne extends GameObject {
         distance += getVelocity();
     }
 
-    @Override
-    public void move() {
-        super.move();
-        moveImage();
-    }
-
-    @Override
-    public void draw() {
+    private void verifyCollision() {
         if (!finish) {
             if (isCollide(target)) {
                 target.hitted(damage);
@@ -64,4 +57,14 @@ public class MultiAuraOne extends GameObject {
             globalManager.getToRemoveObjects().add(this);
         }
     }
+
+    @Override
+    public void move() {
+        super.move();
+        moveImage();
+        verifyCollision();
+    }
+
+    @Override
+    public void draw() {}
 }

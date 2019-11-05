@@ -58,30 +58,31 @@ public class MultiAuraFinal extends GameObject {
         distance += getVelocity();
     }
 
+    private void verifyCollision() {
+        if (!loading && isCollide(target)) {
+            target.hitted(damage);
+            finish = true;
+        } else if (distance > range) finish = true;
+    }
+
     @Override
     public void move() {
         super.move();
         moveImage();
+        verifyCollision();
     }
 
     @Override
     public void draw() {
-        if (!finish) {
-            if (loading) {
-                viewX += size;
-                imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
-                frame++;
-                if (frame == 4) {
-                    loading = false;
-                    setDirection(toSet);
-                }
-            } else {
-                if (isCollide(target)) {
-                    target.hitted(damage);
-                    finish = true;
-                } else if (distance > range) finish = true;
+        if (!finish && loading) {
+            viewX += size;
+            imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
+            frame++;
+            if (frame == 4) {
+                loading = false;
+                setDirection(toSet);
             }
-        } else {
+        } else if (finish) {
             globalManager.getAuraAttacks().getChildren().remove(imageView);
             globalManager.getToRemoveObjects().add(this);
         }

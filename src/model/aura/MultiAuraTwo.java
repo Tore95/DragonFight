@@ -54,14 +54,7 @@ public class MultiAuraTwo extends GameObject {
         countTick += getVelocity();
     }
 
-    @Override
-    public void move() {
-        super.move();
-        moveImage();
-    }
-
-    @Override
-    public void draw() {
+    private void verifyCollision() {
         if (!finish) {
             if (countTick >= tick) {
                 sizeX += tick;
@@ -82,4 +75,14 @@ public class MultiAuraTwo extends GameObject {
             globalManager.getToRemoveObjects().add(this);
         }
     }
+
+    @Override
+    public void move() {
+        super.move();
+        moveImage();
+        verifyCollision();
+    }
+
+    @Override
+    public void draw() {}
 }
