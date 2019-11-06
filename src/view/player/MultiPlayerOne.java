@@ -1,19 +1,18 @@
-package model.player;
+package view.player;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import model.aura.MultiAuraFinal;
-import model.aura.MultiAuraOne;
-import model.aura.MultiAuraTwo;
-import model.baseObjs.Player;
-import model.baseObjs.Point;
+import view.aura.MultiAuraFinal;
+import view.aura.MultiAuraOne;
+import view.aura.MultiAuraTwo;
+import model.Player;
+import model.Point;
 import model.enums.Characters;
 import model.enums.Turned;
 
-public class MultiPlayerTwo extends Player {
+public class MultiPlayerOne extends Player {
 
-    public MultiPlayerTwo(Characters character) {
-        super(1064d, Turned.LEFT, character);
+    public MultiPlayerOne(Characters character) {
+        super(164d, Turned.RIGHT, character);
     }
 
     @Override
@@ -38,26 +37,25 @@ public class MultiPlayerTwo extends Player {
     @Override
     public void pressedKeyEvent(KeyEvent ev) {
         switch (ev.getCode()) {
-            case Y: goUp(true); break;
-            case H: goDown(true); break;
-            case J: goRight(true); break;
-            case G: goLeft(true); break;
+            case W: goUp(true); break;
+            case S: goDown(true); break;
+            case D: goRight(true); break;
+            case A: goLeft(true); break;
         }
     }
 
     @Override
     public void releasedKeyEvent(KeyEvent ev) {
         switch (ev.getCode()) {
-            case Y: goUp(false); break;
-            case H: goDown(false); break;
-            case J: goRight(false); break;
-            case G: goLeft(false); break;
-            case U: punch(); break;
-            case T: kick(); break;
-            case I: auraOne(); break;
-            case K: auraTwo(); break;
-            case M: auraFinal(); break;
+            case W: goUp(false); break;
+            case S: goDown(false); break;
+            case D: goRight(false); break;
+            case A: goLeft(false); break;
+            case E: punch(); break;
+            case Q: kick(); break;
+            case R: auraOne(); break;
+            case F: auraTwo(); break;
+            case C: auraFinal(); break;
         }
-
     }
 }

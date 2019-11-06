@@ -1,4 +1,4 @@
-package old.model.shape;
+package model;
 
 public class Point {
 

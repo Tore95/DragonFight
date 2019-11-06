@@ -1,7 +1,7 @@
 package model.factory;
 
-import model.baseObjs.Background;
-import model.baseObjs.Player;
+import view.Background;
+import model.Player;
 import model.enums.Characters;
 
 public class GameFactory implements GameModeFactory {

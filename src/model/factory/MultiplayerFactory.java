@@ -1,9 +1,9 @@
 package model.factory;
 
-import model.baseObjs.Player;
+import model.Player;
 import model.enums.Characters;
-import model.player.MultiPlayerOne;
-import model.player.MultiPlayerTwo;
+import view.player.MultiPlayerOne;
+import view.player.MultiPlayerTwo;
 
 public class MultiplayerFactory implements GameModeFactory {
 

@@ -1,23 +1,22 @@
-package old.view;
+package view;
 
-import old.controller.GameStatus;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import view.GlobalManager;
 
-public class Map {
+public class Background {
 
-    private GameStatus gs;
     private ImageView bg;
 
     private double bgX;
 
-    public Map() {
-        gs = GameStatus.getInstance();
+    public Background() {
+        GlobalManager globalManager = GlobalManager.getInstance();
         bg = new ImageView(new Image("resources/bg.png",2266,720,true,false));
         bgX = -439;
         bg.setX(bgX);
         bg.setY(0);
-        gs.getBackground().getChildren().add(bg);
+        globalManager.getBackground().getChildren().add(bg);
     }
 
     public void moveBgRight(double val) {

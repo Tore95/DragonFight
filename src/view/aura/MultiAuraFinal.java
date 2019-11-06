@@ -1,16 +1,15 @@
-package old.view;
+package view.aura;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
-import old.model.GameObject;
-import old.model.Player;
-import old.model.enums.Direction;
-import old.model.enums.Turned;
+import model.GameObject;
+import model.Player;
+import model.enums.Direction;
+import model.enums.Turned;
 
-public class AuraFinal extends GameObject {
+public class MultiAuraFinal extends GameObject {
 
     private Player target;
-    private ImageView imageView;
     private Direction toSet;
     private int damage;
     private int distance;
@@ -19,11 +18,10 @@ public class AuraFinal extends GameObject {
     private int viewY;
     private int size;
     private int range;
-    private long lastFrame;
     private boolean loading;
     private boolean finish;
 
-    public AuraFinal(Character owner) {
+    public MultiAuraFinal(Player owner) {
         super(
                 owner.getX() + owner.getHashAuraFinal().get("offsetx"),
                 owner.getY() + owner.getHashAuraFinal().get("offsety"),
@@ -38,7 +36,6 @@ public class AuraFinal extends GameObject {
         this.viewY = owner.getHashAuraFinal().get("imgy");
         this.size = owner.getHashAuraFinal().get("size");
         this.range = owner.getHashAuraFinal().get("range");
-        this.lastFrame = System.nanoTime();
         this.loading = true;
         this.finish = false;
         this.distance = 0;
@@ -46,12 +43,13 @@ public class AuraFinal extends GameObject {
         imageView = new ImageView(owner.getSprite());
         imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
         moveImage();
-        gs.getAuraAttacks().getChildren().add(imageView);
+        globalManager.getAuraAttacks().getChildren().add(imageView);
         if (owner.getHashAuraFinal().get("dir") != 0) {
             toSet = owner.getTurned() == Turned.RIGHT ? Direction.DOWN_RIGHT : Direction.DOWN_LEFT;
         } else {
             toSet = owner.getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT;
         }
+
     }
 
     private void moveImage() {
@@ -60,31 +58,33 @@ public class AuraFinal extends GameObject {
         distance += getVelocity();
     }
 
+    private void verifyCollision() {
+        if (!loading && isCollide(target)) {
+            target.hitted(damage);
+            finish = true;
+        } else if (distance > range) finish = true;
+    }
+
+    @Override
+    public void move() {
+        super.move();
+        moveImage();
+        verifyCollision();
+    }
+
     @Override
     public void draw() {
-        moveImage();
-        int frameJump = (int) Math.floor((double) (System.nanoTime() - lastFrame) / (double)(1000000000L / gs.getSpriteFPS()));
-        if (frameJump >= 1) {
-            lastFrame = System.nanoTime();
-            if (!finish) {
-                if (loading) {
-                    viewX += size;
-                    imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
-                    frame++;
-                    if (frame == 4) {
-                        loading = false;
-                        setDirection(toSet);
-                    }
-                } else {
-                    if (isCollide(target)) {
-                        target.hitted(damage);
-                        finish = true;
-                    } else if (distance > range) finish = true;
-                }
-            } else {
-                gs.getAuraAttacks().getChildren().remove(imageView);
-                gs.getToRemoveObjects().add(this);
+        if (!finish && loading) {
+            viewX += size;
+            imageView.setViewport(new Rectangle2D(viewX, viewY, size, size));
+            frame++;
+            if (frame == 4) {
+                loading = false;
+                setDirection(toSet);
             }
+        } else if (finish) {
+            globalManager.getAuraAttacks().getChildren().remove(imageView);
+            globalManager.getToRemoveObjects().add(this);
         }
     }
 }

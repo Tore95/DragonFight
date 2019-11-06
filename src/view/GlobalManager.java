@@ -1,15 +1,21 @@
-package model;
+package view;
 
+import controller.GameLauncher;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import model.baseObjs.Background;
-import model.baseObjs.GameObject;
-import model.baseObjs.Player;
+import model.GameObject;
+import model.Player;
 import model.enums.Characters;
+import model.enums.MenuAction;
+import model.enums.UserState;
 import model.factory.GameFactory;
 
 import java.io.IOException;
@@ -36,19 +42,23 @@ public class GlobalManager extends AnimationTimer {
     private LinkedList<GameObject> toRemoveObjects;
     private LinkedList<GameObject> toAddObjects;
     private HashMap<Integer,Characters> playerSelection;
+    private MenuAction menuAction;
+    private UserState userState;
     private double lastFrame;
     private double lastSpriteFrame;
+    private boolean inPause;
 
     private GlobalManager() {
         lastFrame = System.nanoTime();
         lastSpriteFrame = lastFrame;
+        menuAction = MenuAction.NONE;
         playerSelection = new HashMap<>();
         try {
             spriteMapping = new Properties();
             spriteMapping.load(getClass().getClassLoader().getResourceAsStream("resources/spriteMapping.properties"));
         } catch (IOException e) {
             System.err.println("Unable to load sprite mapping properties");
-            System.exit(-1);
+            Platform.exit();
         }
     }
     private void init(int width, int height) {
@@ -69,14 +79,18 @@ public class GlobalManager extends AnimationTimer {
         toRemoveObjects = new LinkedList<>();
         toAddObjects = new LinkedList<>();
     }
-    private void gameScene() {
+    public void gameStart() {
         init(1280,720);
+        userState = UserState.GAME;
+
         Player playerOne = gameFactory.makePlayerOne(playerSelection.get(1));
         Player playerTwo = gameFactory.makePlayerTwo(playerSelection.get(2));
-        Background background = gameFactory.makeBackground();
+        gameFactory.makeBackground();
 
         playerOne.setTarget(playerTwo);
         playerTwo.setTarget(playerOne);
+
+        this.start();
 
         scene.setOnKeyPressed(event -> {
             playerOne.pressedKeyEvent(event);
@@ -86,49 +100,111 @@ public class GlobalManager extends AnimationTimer {
         scene.setOnKeyReleased(event -> {
             playerOne.releasedKeyEvent(event);
             playerTwo.releasedKeyEvent(event);
+            if (event.getCode().equals(KeyCode.ESCAPE) && !inPause) pause();
+
+        });
+    }
+
+    private void pause() {
+        this.stop();
+        Rectangle overlay = new Rectangle(0,0,1280,720);
+        overlay.setFill(new Color(1,1,1,0.5));
+
+        Button resume = new Button("resume");
+        Button backOne = new Button("Back");
+        Button exit = new Button("Close Game");
+        VBox layout = new VBox(resume,backOne,exit);
+        UI.getChildren().addAll(overlay,layout);
+
+        resume.setOnAction(ev -> {
+            UI.getChildren().removeAll(overlay,layout);
+            this.start();
+        });
+        backOne.setOnAction(ev -> {
+            menuAction = MenuAction.BACK;
+            triggerGL();
         });
 
-        this.start();
+        exit.setOnAction(ev -> {
+            menuAction = MenuAction.EXIT;
+            triggerGL();
+        });
+
     }
-    private void playerSelection() {
+
+    public void playerSelection() {
         init(600,800);
+        userState = UserState.SELECTION_MENU;
+
         Button goku = new Button("goku");
         Button vegeta = new Button("vegeta");
+        Button back = new Button("back");
         VBox layout = new VBox();
         UI.getChildren().add(layout);
-        layout.getChildren().addAll(goku,vegeta);
+        layout.getChildren().addAll(goku,vegeta,back);
+
         goku.setOnAction(ev -> {
             playerSelection.put(1,Characters.GOKU);
             playerSelection.put(2,Characters.VEGETA);
-            gameScene();
+            menuAction = MenuAction.PG_SELECTED;
+            triggerGL();
         });
         vegeta.setOnAction(ev -> {
             playerSelection.put(1,Characters.VEGETA);
             playerSelection.put(2,Characters.GOKU);
-            gameScene();
+            menuAction = MenuAction.PG_SELECTED;
+            triggerGL();
+        });
+        back.setOnAction(ev -> {
+            menuAction = MenuAction.BACK;
+            triggerGL();
         });
 
     }
-    public void startGame(Stage s) {
-        stage = s;
-        stage.setTitle("DragonFight");
-        stage.show();
+    public void mainMenu() {
         init(600,800);
+        userState = UserState.MAIN_MENU;
+
         VBox layout = new VBox();
         UI.getChildren().add(layout);
         Button singleplayer = new Button("Singleplayer");
         Button multiplayer = new Button("Multiplayer");
         Button exit = new Button("Close Game");
         layout.getChildren().addAll(singleplayer,multiplayer,exit);
+
         singleplayer.setOnAction(event -> {
             gameFactory.setSingleplayerGameMode();
-            playerSelection();
+            menuAction = MenuAction.SINGLEPLAYER;
+            triggerGL();
         });
         multiplayer.setOnAction(event -> {
             gameFactory.setMultiplayerGameMode();
-            playerSelection();
+            menuAction = MenuAction.MULTIPLAYER;
+            triggerGL();
         });
-        exit.setOnAction(event -> stage.close());
+        exit.setOnAction(event -> {
+            menuAction = MenuAction.EXIT;
+            triggerGL();
+        });
+    }
+
+    public void initGame(Stage s) {
+        stage = s;
+        stage.setTitle("DragonFight");
+        stage.show();
+        mainMenu();
+    }
+
+    private void triggerGL() {
+        GameLauncher.updateMenu();
+    }
+
+    public MenuAction getMenuAction() {
+        return menuAction;
+    }
+
+    public UserState getUserState() {
+        return userState;
     }
 
     public static GlobalManager getInstance() {
@@ -156,6 +232,18 @@ public class GlobalManager extends AnimationTimer {
     }
     public LinkedList<GameObject> getToAddObjects() {
         return toAddObjects;
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        inPause = false;
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        inPause = true;
     }
 
     @Override

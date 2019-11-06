@@ -1,6 +1,6 @@
 package model.factory;
 
-import model.baseObjs.Player;
+import model.Player;
 import model.enums.Characters;
 
 public class SingleplayerFactory implements GameModeFactory {

@@ -1,7 +1,7 @@
-package model.baseObjs;
+package model;
 
 import javafx.scene.image.ImageView;
-import model.GlobalManager;
+import view.GlobalManager;
 import model.enums.Direction;
 
 public abstract class GameObject {
