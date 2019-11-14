@@ -1,12 +1,34 @@
-% ---------------------------------------
-% facts format                          |
-% aura(x,y,direction)                   |
-% opponent(x,y,life,direction,action)   |
-% me(x,y,life,direction,action)         |
-% ---------------------------------------
-% output format                         |
-% do(action)                            |
-% go(direction,distance)                |
-% ---------------------------------------
+% -------------------------------------------
+% facts format                              |
+% aura(x,y,direction)                       |
+% opponent(x,y,life,aura,direction,action)  |
+% me(x,y,life,aura,direction,action)        |
+% -------------------------------------------
+% output format                             |
+% do(action)                                |
+% go(direction,distance)                    |
+% -------------------------------------------
 
-go("up",100).
+baseAttack("punch").
+baseAttack("kick").
+opp(X,Y,Act) :- opponent(X,Y,_,_,_,Act).
+pos(X,Y) :- me(X,Y,_,_,_,_).
+
+go("right",150) | go("left",150) | go("up",150) | go("down",150) :- danger.
+% go(Dir,Dis) :- forAlign(Dir,Dis), not align.
+
+do("punch") | do("kick") | do("aura1") | do("aura2") | do("final") :- not danger. % align
+
+% forAlign(Dir,Dis) :- {...} not align.
+
+dangerAY :- aura(_,Ya,_), pos(_,Ym), Ya > Ym, Ya - Ym < 128.
+dangerAY :- aura(_,Ya,_), pos(_,Ym), Ya < Ym, Ym - Ya < 128.
+dangerAX :- aura(Xa,_,"left"), pos(Xm,_), Xa > Xm.
+dangerAX :- aura(Xa,_,"right"), pos(Xm,_), Xa < Xm.
+danger :- dangerAX, dangerAY.
+
+dangerOX :- opp(Xo,_,A), pos(Xm,_),baseAttack(A), Xo > Xm, Xo - Xm < 64.
+dangerOX :- opp(Xo,_,A), pos(Xm,_),baseAttack(A), Xo < Xm, Xm - Xo < 64.
+dangerOY :- opp(_,Yo,A), pos(_,Ym),baseAttack(A), Yo > Ym, Yo - Ym < 64.
+dangerOY :- opp(_,Yo,A), pos(_,Ym),baseAttack(A), Yo < Ym, Ym - Yo < 64.
+danger :- dangerOX, dangerOY.

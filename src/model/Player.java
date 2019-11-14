@@ -124,13 +124,22 @@ public abstract class Player extends GameObject {
         if (setPlayerAction(PlayerAction.KICK)) action();
     }
     protected void auraOne() {
-        if (setPlayerAction(PlayerAction.AURA1)) action();
+        if (setPlayerAction(PlayerAction.AURA1)) {
+            subAura(10);
+            action();
+        }
     }
     protected void auraTwo() {
-        if (setPlayerAction(PlayerAction.AURA2)) action();
+        if (setPlayerAction(PlayerAction.AURA2)) {
+            subAura(30);
+            action();
+        }
     }
     protected void auraFinal() {
-        if (setPlayerAction(PlayerAction.FINAL)) action();
+        if (setPlayerAction(PlayerAction.FINAL)) {
+            subAura(50);
+            action();
+        }
     }
 
     protected abstract void launchAttack();

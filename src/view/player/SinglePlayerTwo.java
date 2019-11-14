@@ -101,8 +101,6 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
         }
         handler.addProgram(facts);
 
-
-
         Output o = handler.startSync();
         AnswerSets answer = (AnswerSets) o;
 
@@ -122,6 +120,112 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void ia2() {
+        if (canAttack() && !isDanger()) {
+            //TODO scelgo come attaccare
+            if (getAura() > 80) {
+                // attaccon finale
+            } else if (getAura() > 40) {
+                // attaccon con onda2
+
+            } else if (getAura() > 20) {
+                // attaccon con onda1
+            } else {
+                // attacco con pugno o calcio
+            }
+
+        } else if (!canAttack() && !isDanger()){
+            // cerco di allinearmi per attaccare
+            int x_distance;
+            int y_distance;
+            Direction x_dir;
+            Direction y_dir;
+
+            if (playerOnePack.getX() > (int) getX()) {
+                x_distance = playerOnePack.getX() - (int) getX();
+                x_dir = Direction.RIGHT;
+            }
+            else {
+                x_distance = (int) getX() - playerOnePack.getX();
+                x_dir = Direction.LEFT;
+            }
+            if (playerOnePack.getY() > (int) getY()) {
+                y_distance = playerOnePack.getY() - (int) getY();
+                y_dir = Direction.UP;
+            }
+            else {
+                y_distance = (int) getY() - playerOnePack.getY();
+                y_dir = Direction.DOWN;
+            }
+
+            goTo(y_dir,y_distance);
+
+            if (getAura() > 20) {
+                if (x_distance > 500) {
+                    x_distance -= (x_distance - 500);
+                    goTo(x_dir,x_distance);
+                }
+            } else {
+                goTo(x_dir,x_distance - 32);
+            }
+
+        } else {
+            //cerco di schivare l'attacco
+            if (playerOnePack.getRealAction() != PlayerAction.PUNCH && playerOnePack.getRealAction() != PlayerAction.KICK && !auraPacks.isEmpty()) {
+                if (auraPacks.getFirst().getY() >= getY()) goTo(Direction.UP,getHeight());
+                else goTo(Direction.DOWN,getHeight());
+            } else {
+                if (getY() > (1280 / 2d)) goTo(Direction.LEFT,200);
+                else goTo(Direction.RIGHT,200);
+            }
+        }
+    }
+
+    private boolean canAttack() {
+        //se sono allineato per l'attacco ritorno true
+
+        int y_distance;
+        int x_distance;
+
+        if (playerOnePack.getY() > getY()) y_distance = playerOnePack.getY() - (int) getY();
+        else y_distance = (int) getY() - playerOnePack.getY();
+        if (playerOnePack.getX() > getX()) x_distance = playerOnePack.getX() - (int) getX();
+        else x_distance = (int) getX() - playerOnePack.getX();
+
+        if (getAura() > 20 && x_distance < 550) {
+            if (y_distance < getHeight() / 2) return true;
+            else return false;
+        } else {
+            if (x_distance < getWidth()) return true;
+            else return false;
+        }
+    }
+
+    private boolean isDanger() {
+        // se mi arriva un attacco addosso ritorno true
+        int y_distance;
+        int x_distance;
+        int xa_distance;
+        int ya_distance;
+
+        if (playerOnePack.getY() > getY()) y_distance = playerOnePack.getY() - (int) getY();
+        else y_distance = (int) getY() - playerOnePack.getY();
+        if (playerOnePack.getX() > getX()) x_distance = playerOnePack.getX() - (int) getX();
+        else x_distance = (int) getX() - playerOnePack.getX();
+
+        if (!auraPacks.isEmpty()) {
+            if (auraPacks.getFirst().getY() > getY()) ya_distance = auraPacks.getFirst().getY() - (int)getY();
+            else ya_distance = (int) getY() - auraPacks.getFirst().getY();
+            if (ya_distance < getHeight() / 2) return true;
+            else return false;
+        } else {
+            if (playerOnePack.getRealAction() != PlayerAction.PUNCH && playerOnePack.getRealAction() != PlayerAction.KICK) {
+                if (x_distance < getWidth() && y_distance < getHeight()) return true;
+                else return false;
+            } else return false;
         }
     }
 
