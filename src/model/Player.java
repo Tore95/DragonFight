@@ -116,6 +116,7 @@ public abstract class Player extends GameObject {
     protected void goLeft(boolean val) {
         if (setLeft(val)) direction();
     }
+
     protected void punch() {
         if (setPlayerAction(PlayerAction.PUNCH)) action();
     }
@@ -136,7 +137,7 @@ public abstract class Player extends GameObject {
     public abstract void pressedKeyEvent(KeyEvent ev);
     public abstract void releasedKeyEvent(KeyEvent ev);
 
-    private void direction() {
+    protected void direction() {
         if (getPlayerAction() != PlayerAction.REST) return;
         updateState();
         String currDirection = getDirection().toString().toLowerCase() + '.';
@@ -146,7 +147,7 @@ public abstract class Player extends GameObject {
         currRow = turned == Turned.RIGHT ? currRow : currRow + 1;
     }
 
-    private void action() {
+    protected void action() {
         setDirection(Direction.STOP);
         String currAction = getPlayerAction().toString().toLowerCase() + '.';
         currRow = Integer.parseInt(spriteMapping.getProperty(currCharacter + currAction + "row"));
@@ -175,7 +176,7 @@ public abstract class Player extends GameObject {
         hashPunch.put("offsety",Integer.parseInt(spriteMapping.getProperty(currCharacter + "punch.offsety")));
         // set Kick Parameters
         hashKick.put("offsety",Integer.parseInt(spriteMapping.getProperty(currCharacter + "kick.offsety")));
-        // set AuraOne Parameters
+        // set Atom Parameters
         hashAuraOne.put("imgx",Integer.parseInt(spriteMapping.getProperty(currCharacter + "aura1.imgx")));
         hashAuraOne.put("imgy",Integer.parseInt(spriteMapping.getProperty(currCharacter + "aura1.imgy")));
         hashAuraOne.put("size",Integer.parseInt(spriteMapping.getProperty(currCharacter + "aura1.size")));
@@ -290,7 +291,7 @@ public abstract class Player extends GameObject {
     // sprite
     @Override
     public void move() {
-        super.move();
+        altMove();
         imageView.setX(getX() - getWidth());
         imageView.setY(getY() - (getHeight() / 2d));
     }

@@ -17,7 +17,13 @@ public abstract class GameObject {
         position.x += x;
         hitbox.setXc(position.x);
     }
+    private void addXalt(double x) {
+        if (position.x + width > 1280) return;
+        position.x += x;
+        hitbox.setXc(position.x);
+    }
     private void addY(double y) {
+        if (position.y + height > 720) return;
         position.y += y;
         hitbox.setYc(position.y);
     }
@@ -25,7 +31,13 @@ public abstract class GameObject {
         position.x -= x;
         hitbox.setXc(position.x);
     }
+    private void subXalt(double x) {
+        if (position.x - width < 0) return;
+        position.x -= x;
+        hitbox.setXc(position.x);
+    }
     private void subY(double y) {
+        if (position.y - (height / 2d) < 0) return;
         position.y -= y;
         hitbox.setYc(position.y);
     }
@@ -108,6 +120,38 @@ public abstract class GameObject {
             case DOWN_LEFT:
                 addY(velocity);
                 subX(velocity);
+                break;
+            case DOWN:
+                addY(velocity);
+        }
+    }
+
+    protected void altMove() {
+        switch (direction) {
+            case UP:
+                subY(velocity);
+                break;
+            case UP_RIGHT:
+                subY(velocity);
+                addXalt(velocity);
+                break;
+            case UP_LEFT:
+                subY(velocity);
+                subXalt(velocity);
+                break;
+            case RIGHT:
+                addXalt(velocity);
+                break;
+            case LEFT:
+                subXalt(velocity);
+                break;
+            case DOWN_RIGHT:
+                addY(velocity);
+                addXalt(velocity);
+                break;
+            case DOWN_LEFT:
+                addY(velocity);
+                subXalt(velocity);
                 break;
             case DOWN:
                 addY(velocity);

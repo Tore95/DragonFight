@@ -11,6 +11,16 @@ import model.enums.Turned;
 
 public class MultiPlayerOne extends Player {
 
+    protected void launchAuraOne(Player target) {
+        new MultiAuraOne(target);
+    }
+    protected void launchAuraTwo(Player target) {
+        new MultiAuraTwo(target);
+    }
+    protected void launchAuraFinal(Player target) {
+        new MultiAuraFinal(target);
+    }
+
     public MultiPlayerOne(Characters character) {
         super(164d, Turned.RIGHT, character);
     }
@@ -28,9 +38,9 @@ public class MultiPlayerOne extends Player {
                         new Point(getX() + hashKick.get("offsetx"), getY() + hashKick.get("offsety"))
                 )) getTarget().hitted(getDamage() * 2);
                 break;
-            case AURA1: new MultiAuraOne(this); break;
-            case AURA2: new MultiAuraTwo(this); break;
-            case FINAL: new MultiAuraFinal(this); break;
+            case AURA1: launchAuraOne(this); break;
+            case AURA2: launchAuraTwo(this); break;
+            case FINAL: launchAuraFinal(this); break;
         }
     }
 

@@ -4,6 +4,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import model.GameObject;
+import model.Subject;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -11,16 +13,19 @@ import java.util.Properties;
 public class GlobalManager extends AnimationTimer {
 
     private static GlobalManager instance;
-    private static final long FPS = 60L;
-    private static final long SPRITE_FPS = 16L;
+    public static final long FPS = 60L;
+    public static final long SPRITE_FPS = 16L;
+    private static final long IA_FPS = 1L;
 
     private double lastFrame;
     private double lastSpriteFrame;
+    private double lastIaTick;
     private Group background;
     private Group players;
     private Group auraAttacks;
     private Group UI;
     private Properties spriteMapping;
+    private Subject playerOne;
     private LinkedList<GameObject> gameObjects;
     private LinkedList<GameObject> toRemoveObjects;
     private LinkedList<GameObject> toAddObjects;
@@ -28,6 +33,7 @@ public class GlobalManager extends AnimationTimer {
     private GlobalManager() {
         lastFrame = System.nanoTime();
         lastSpriteFrame = lastFrame;
+        lastIaTick = lastFrame;
         gameObjects = new LinkedList<>();
         toRemoveObjects = new LinkedList<>();
         toAddObjects = new LinkedList<>();
@@ -47,6 +53,10 @@ public class GlobalManager extends AnimationTimer {
 
     Group getBackground() {
         return background;
+    }
+
+    public void setPlayerOne(Subject playerOne) {
+        this.playerOne = playerOne;
     }
     public Group getPlayers() {
         return players;
@@ -86,6 +96,10 @@ public class GlobalManager extends AnimationTimer {
             if ((int) Math.floor((now - lastSpriteFrame) / (double)(1000000000L / SPRITE_FPS)) >= 1) {
                 lastSpriteFrame = now;
                 gameObjects.forEach(GameObject::draw);
+                if (((int) Math.floor((now - lastIaTick) / (double)(1000000000L / IA_FPS)) >= 1) && playerOne != null) {
+                    lastIaTick = now;
+                    playerOne.notifyObserver();
+                }
             }
         }
     }

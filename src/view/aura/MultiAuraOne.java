@@ -15,6 +15,10 @@ public class MultiAuraOne extends GameObject {
     private int range;
     private boolean finish;
 
+    protected void setTarget(Player target) {
+        this.target = target;
+    }
+
     public MultiAuraOne(Player owner) {
         super(
                 owner.getX() + owner.getHashAuraOne().get("offsetx"),
@@ -24,7 +28,7 @@ public class MultiAuraOne extends GameObject {
                 owner.getVelocity() + 10,
                 owner.getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT
         );
-        this.target = owner.getTarget();
+        setTarget(owner.getTarget());
         this.damage = owner.getDamage() * 3;
         this.range = owner.getHashAuraOne().get("range");
         this.distance = 0;

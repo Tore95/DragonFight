@@ -1,0 +1,12 @@
+% ---------------------------------------
+% facts format                          |
+% aura(x,y,direction)                   |
+% opponent(x,y,life,direction,action)   |
+% me(x,y,life,direction,action)         |
+% ---------------------------------------
+% output format                         |
+% do(action)                            |
+% go(direction,distance)                |
+% ---------------------------------------
+
+go("up",100).

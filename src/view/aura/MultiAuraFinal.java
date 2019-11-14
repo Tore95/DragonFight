@@ -21,6 +21,10 @@ public class MultiAuraFinal extends GameObject {
     private boolean loading;
     private boolean finish;
 
+    protected void setTarget(Player target) {
+        this.target = target;
+    }
+
     public MultiAuraFinal(Player owner) {
         super(
                 owner.getX() + owner.getHashAuraFinal().get("offsetx"),
@@ -30,7 +34,7 @@ public class MultiAuraFinal extends GameObject {
                 owner.getVelocity() + 10,
                 Direction.STOP
         );
-        this.target = owner.getTarget();
+        setTarget(owner.getTarget());
         this.damage = owner.getDamage() * 5;
         this.viewX = owner.getHashAuraFinal().get("imgx");
         this.viewY = owner.getHashAuraFinal().get("imgy");
@@ -72,6 +76,10 @@ public class MultiAuraFinal extends GameObject {
         verifyCollision();
     }
 
+    public void launch(Direction toSet) {
+        setDirection(toSet);
+    }
+
     @Override
     public void draw() {
         if (!finish && loading) {
@@ -80,7 +88,7 @@ public class MultiAuraFinal extends GameObject {
             frame++;
             if (frame == 4) {
                 loading = false;
-                setDirection(toSet);
+                launch(toSet);
             }
         } else if (finish) {
             globalManager.getAuraAttacks().getChildren().remove(imageView);

@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Player;
 import model.enums.Characters;
+import model.enums.GameMode;
 import model.factory.GameFactory;
 import view.GlobalManager;
 
@@ -25,6 +26,7 @@ public class GameLauncher extends Application {
     private Group auraAttacks;
     private Group UI;
     private Scene scene;
+    private GameMode gameMode;
     private Characters[] selection;
     private boolean inPause = false;
 
@@ -50,10 +52,12 @@ public class GameLauncher extends Application {
 
         singleplayer.setOnAction(event -> {
             gameFactory.setSingleplayerGameMode();
+            gameMode = GameMode.SINGLEPLAYER;
             selectionMenu();
         });
         multiplayer.setOnAction(event -> {
             gameFactory.setMultiplayerGameMode();
+            gameMode = GameMode.MULTIPLAYER;
             selectionMenu();
         });
         exit.setOnAction(event -> Platform.exit());
@@ -62,6 +66,7 @@ public class GameLauncher extends Application {
     private void selectionMenu() {
         clearAll();
         globalManager.stop();
+        globalManager.setPlayerOne(null);
         selection = new Characters[2];
         Button goku = new Button("goku");
         Button vegeta = new Button("vegeta");
@@ -98,12 +103,12 @@ public class GameLauncher extends Application {
 
         scene.setOnKeyPressed(event -> {
             playerOne.pressedKeyEvent(event);
-            playerTwo.pressedKeyEvent(event);
+            if (gameMode.equals(GameMode.MULTIPLAYER)) playerTwo.pressedKeyEvent(event);
         });
 
         scene.setOnKeyReleased(event -> {
             playerOne.releasedKeyEvent(event);
-            playerTwo.releasedKeyEvent(event);
+            if (gameMode.equals(GameMode.MULTIPLAYER)) playerTwo.releasedKeyEvent(event);
             if (event.getCode().equals(KeyCode.ESCAPE) && !inPause) pauseScene();
         });
     }

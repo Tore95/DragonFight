@@ -21,6 +21,10 @@ public class MultiAuraTwo extends GameObject {
     private int sizeY;
     private boolean finish;
 
+    protected void setTarget(Player target) {
+        this.target = target;
+    }
+
     public MultiAuraTwo(Player owner) {
         super(
                 owner.getX() + owner.getHashAuraTwo().get("offsetx"),
@@ -31,7 +35,7 @@ public class MultiAuraTwo extends GameObject {
                 owner.getTurned() == Turned.RIGHT ? Direction.RIGHT : Direction.LEFT
         );
         this.damage = owner.getDamage() * 4;
-        this.target = owner.getTarget();
+        setTarget(owner.getTarget());
         this.viewX = owner.getHashAuraTwo().get("imgx");
         this.viewY = owner.getHashAuraTwo().get("imgy");
         this.sizeX = owner.getHashAuraTwo().get("sizex");
