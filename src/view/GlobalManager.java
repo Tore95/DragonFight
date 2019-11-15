@@ -16,7 +16,7 @@ public class GlobalManager extends AnimationTimer {
     private static GlobalManager instance;
     public static final long FPS = 60L;
     public static final long SPRITE_FPS = 16L;
-    private static final long IA_FPS = 1L;
+    private static final long IA_FPS = 2L;
 
     private double lastFrame;
     private double lastSpriteFrame;

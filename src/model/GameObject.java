@@ -37,7 +37,7 @@ public abstract class GameObject {
         hitbox.setXc(position.x);
     }
     private void subY(double y) {
-        if (position.y - (height / 2d) < 0) return;
+        if (position.y - (height + 32) < 0) return;
         position.y -= y;
         hitbox.setYc(position.y);
     }

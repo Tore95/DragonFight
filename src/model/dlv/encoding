@@ -59,7 +59,7 @@ forAlign(Dir,Dist) :- distOppX(_,Dir), turned(T), Dir != T, Dist = 10, not align
 % check-------------------------------------------------------------------------
 :- go("right",Dist), pos(X,_), X + Dist > 1280.
 :- go("left",Dist), pos(X,_), X - Dist < 0.
-:- go("up",Dist), pos(_,Y), Y - Dist < 0.
+:- go("up",Dist), pos(_,Y), Y - Dist < 128.
 :- go("down",Dist), pos(_,Y), Y + Dist > 720.
 :- go("right",_), dangerA.
 :- go("left",_), dangerA.
@@ -69,5 +69,5 @@ forAlign(Dir,Dist) :- distOppX(_,Dir), turned(T), Dir != T, Dist = 10, not align
 :- do("punch"), not alignXa.
 :- do("kick"), not alignXa.
 % strategy ---------------------------------------------------------------------
-:~ do("aura1"), myAura(A), A >= 30. [do("aura1") @ 2]
-:~ do("aura2"), myAura(A), A >= 50. [do("aura2") @ 1]
+:~ not do("aura2"), myAura(A), A >= 50. [do("aura2") @ 2]
+:~ not do("final"), myAura(A), A >= 80. [do("final") @ 1]
