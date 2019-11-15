@@ -52,6 +52,8 @@ public class GameLauncher extends Application {
         Button exit = new Button("Close Game");
         layout.getChildren().addAll(singleplayer,multiplayer,exit);
 
+        
+
         singleplayer.setOnAction(event -> {
             gameFactory.setSingleplayerGameMode();
             gameMode = GameMode.SINGLEPLAYER;
