@@ -2,33 +2,69 @@
 % facts format                              |
 % aura(x,y,direction)                       |
 % opponent(x,y,life,aura,direction,action)  |
-% me(x,y,life,aura,direction,action)        |
+% me(x,y,life,aura,direction,turned,action) |
 % -------------------------------------------
 % output format                             |
 % do(action)                                |
 % go(direction,distance)                    |
 % -------------------------------------------
 
+
+% guess-------------------------------------------------------------------------
+go("right",150) | go("left",150) | go("up",150) | go("down",150) :- danger.
+go(Dir,Dis) :- forAlign(Dir,Dis), not align, not danger.
+do("punch") | do("kick") | do("aura1") | do("aura2") | do("final") :- align, not danger.
+% support-----------------------------------------------------------------------
 baseAttack("punch").
 baseAttack("kick").
+turn("right").
+turn("left").
 opp(X,Y,Act) :- opponent(X,Y,_,_,_,Act).
-pos(X,Y) :- me(X,Y,_,_,_,_).
+pos(X,Y) :- me(X,Y,_,_,_,_,_).
+myAura(A) :- me(_,_,_,A,_,_,_).
+turned(T) :- me(_,_,_,_,_,T,_).
 
-go("right",150) | go("left",150) | go("up",150) | go("down",150) :- danger.
-% go(Dir,Dis) :- forAlign(Dir,Dis), not align.
+% distances---------------------------------------------------------------------
+distAuraY(D,"down") :- aura(_,Ya,_), pos(_,Ym), Ya >= Ym, D = Ya - Ym.
+distAuraY(D,"up") :- aura(_,Ya,_), pos(_,Ym), Ya <= Ym, D = Ym - Ya.
+distAuraX(D,"right") :- aura(Xa,_,_), pos(Xm,_), Xa >= Xm, D = Xa - Xm.
+distAuraX(D,"left") :- aura(Xa,_,_), pos(Xm,_), Xa <= Xm, D = Xm - Xa.
+distOppX(D,"right") :- opp(Xo,_,_), pos(Xm,_), Xo >= Xm, D = Xo - Xm.
+distOppX(D,"left") :- opp(Xo,_,_), pos(Xm,_), Xo <= Xm, D = Xm - Xo.
+distOppY(D,"down") :- opp(_,Yo,_), pos(_,Ym), Yo >= Ym, D = Yo - Ym.
+distOppY(D,"up") :- opp(_,Yo,_), pos(_,Ym), Yo <= Ym, D = Ym - Yo.
+% danger -----------------------------------------------------------------------
+dangerAy :- distAuraY(D,_), D < 128.
+dangerAx :- aura(Xa,_,"left"), pos(Xm,_), Xa > Xm.
+dangerAx :- aura(Xa,_,"right"), pos(Xm,_), Xa < Xm.
+dangerA :- dangerAx, dangerAy.
 
-do("punch") | do("kick") | do("aura1") | do("aura2") | do("final") :- not danger. % align
+dangerOx :- distOppX(D,_), D < 64, opp(_,_,A), baseAttack(A).
+dangerOy :- distOppY(D,_), D < 64, opp(_,_,A), baseAttack(A).
+dangerO :- dangerOx, dangerOy.
 
-% forAlign(Dir,Dis) :- {...} not align.
-
-dangerAY :- aura(_,Ya,_), pos(_,Ym), Ya > Ym, Ya - Ym < 128.
-dangerAY :- aura(_,Ya,_), pos(_,Ym), Ya < Ym, Ym - Ya < 128.
-dangerAX :- aura(Xa,_,"left"), pos(Xm,_), Xa > Xm.
-dangerAX :- aura(Xa,_,"right"), pos(Xm,_), Xa < Xm.
-danger :- dangerAX, dangerAY.
-
-dangerOX :- opp(Xo,_,A), pos(Xm,_),baseAttack(A), Xo > Xm, Xo - Xm < 64.
-dangerOX :- opp(Xo,_,A), pos(Xm,_),baseAttack(A), Xo < Xm, Xm - Xo < 64.
-dangerOY :- opp(_,Yo,A), pos(_,Ym),baseAttack(A), Yo > Ym, Yo - Ym < 64.
-dangerOY :- opp(_,Yo,A), pos(_,Ym),baseAttack(A), Yo < Ym, Ym - Yo < 64.
-danger :- dangerOX, dangerOY.
+danger :- dangerA.
+danger :- dangerO.
+% align ------------------------------------------------------------------------
+alignY :- distOppY(D,_), D < 64.
+alignX :- distOppX(D,T),turned(T), myAura(A), A < 20, D < 64.
+alignX :- distOppX(D,T),turned(T), myAura(A), A >= 20, D < 550.
+align :- alignY, alignX.
+% forAlign----------------------------------------------------------------------
+forAlign(Dir,Dist) :- distOppY(Dist,Dir), not alignY.
+forAlign(Dir,Dist) :- distOppX(DistP,Dir), myAura(A), A < 20, Dist = DistP - 64, not alignX.
+forAlign(Dir,Dist) :- distOppX(DistP,Dir), myAura(A), A >= 20, DistP >= 550, Dist = DistP - 500, not alignX.
+forAlign(Dir,Dist) :- distOppX(DistP,Dir), turned(T), DistP < 550, Dir != T, Dist = 10, not alignX.
+% check-------------------------------------------------------------------------
+:- go("right",Dist), pos(X,_), X + Dist > 1280.
+:- go("left",Dist), pos(X,_), X - Dist < 0.
+:- go("up",Dist), pos(_,Y), Y - Dist < 0.
+:- go("down",Dist), pos(_,Y), Y + Dist > 720.
+:- go("right",_), dangerA.
+:- go("left",_), dangerA.
+:- do("aura1"), myAura(A), A < 20.
+:- do("aura2"), myAura(A), A < 40.
+:- do("final"), myAura(A), A < 80.
+% strategy ---------------------------------------------------------------------
+:~ do("aura1"), myAura(A), A >= 40. [do("aura1") @ 2]
+:~ do("aura2"), myAura(A), A >= 80. [do("aura2") @ 1]

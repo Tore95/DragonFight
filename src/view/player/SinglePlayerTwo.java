@@ -11,6 +11,7 @@ import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
+import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 import model.dlv.*;
 import model.Observer;
 import model.enums.Characters;
@@ -30,7 +31,7 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
     private LinkedList<AuraPack> auraPacks;
 
     private static final String encodingResource = "src/model/dlv/encoding";
-    private static final Handler handler = new DesktopHandler(new DLVDesktopService("lib/dlv"));
+    private static final Handler handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
 
     private void doAction(PlayerAction action) {
         if (setPlayerAction(action)) action();
@@ -79,7 +80,7 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
     @Override
     public void update(PlayerOnePack pack) {
         this.playerOnePack = pack;
-        this.playerTwoPack = new PlayerTwoPack(getX(),getY(),getLife(),getAura(),getDirection(),getPlayerAction());
+        this.playerTwoPack = new PlayerTwoPack(getX(),getY(),getLife(),getAura(),getDirection(),getTurned(),getPlayerAction());
         ia();
         auraPacks.clear();
     }

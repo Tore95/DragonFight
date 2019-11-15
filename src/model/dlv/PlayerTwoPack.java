@@ -4,6 +4,7 @@ import it.unical.mat.embasp.languages.Id;
 import it.unical.mat.embasp.languages.Param;
 import model.enums.Direction;
 import model.enums.PlayerAction;
+import model.enums.Turned;
 
 @Id("me")
 public class PlayerTwoPack {
@@ -24,17 +25,21 @@ public class PlayerTwoPack {
     private Direction direction;
 
     @Param(5)
+    private Turned turned;
+
+    @Param(6)
     private PlayerAction action;
 
     public PlayerTwoPack() {}
 
-    public PlayerTwoPack(double x, double y, int life, int aura, Direction direction, PlayerAction action) {
+    public PlayerTwoPack(double x, double y, int life, int aura, Direction direction, Turned turned, PlayerAction action) {
         this.x = x;
         this.y = y;
         this.life = life;
         this.aura = aura;
         this.direction = direction;
         this.action = action;
+        this.turned = turned;
     }
 
     public int getX() {
@@ -61,6 +66,8 @@ public class PlayerTwoPack {
     public Direction getRealDirection() {
         return direction;
     }
+    public Turned getRealTurned() { return turned; }
+    public String getTurned() { return  turned.toString().toLowerCase(); }
 
 
     public void setX(int x) {
@@ -96,6 +103,13 @@ public class PlayerTwoPack {
             case "soft_hitted": this.action = PlayerAction.SOFT_HITTED; break;
             case "hard_hitted": this.action = PlayerAction.HARD_HITTED; break;
             case "rest": this.action = PlayerAction.REST; break;
+        }
+    }
+    public void setTurned(String turned) {
+        turned = turned.substring(1,turned.length() - 1);
+        switch (turned) {
+            case "right": this.turned = Turned.RIGHT; break;
+            case "left": this.turned = Turned.LEFT; break;
         }
     }
 
