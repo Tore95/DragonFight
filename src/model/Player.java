@@ -39,7 +39,7 @@ public abstract class Player extends GameObject {
     private String currCharacter;
     private Properties spriteMapping;
     private final int tickAura = 5;
-    private final int tickLife = 10;
+    private final int tickLife = 20;
     private int countTickA = 0;
     private int countTickL = 0;
 

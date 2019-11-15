@@ -92,9 +92,7 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
     }
 
     private void ia() {
-
         handler.removeAll();
-
         InputProgram facts = new ASPInputProgram();
         try {
             facts.addObjectInput(playerOnePack);
@@ -107,10 +105,8 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
             e.printStackTrace();
         }
         handler.addProgram(facts);
-
         Output o = handler.startSync();
         AnswerSets answer = (AnswerSets) o;
-
         try {
             for (AnswerSet as: answer.getAnswersets()) {
                 System.out.println(as.getAnswerSet());

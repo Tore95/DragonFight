@@ -3,6 +3,8 @@ package model.factory;
 import view.Background;
 import model.Player;
 import model.enums.Characters;
+import view.UIPlayerOne;
+import view.UIPlayerTwo;
 
 public class GameFactory implements GameModeFactory {
 
@@ -32,7 +34,19 @@ public class GameFactory implements GameModeFactory {
         return currGameMode.makePlayerTwo(character);
     }
 
-    public Background makeBackground() {
-        return new Background();
+    public void makeGameBackground() {
+        new Background("resources/gameBack.png");
     }
+    public void makeMenuBackground() {
+        new Background("resources/menuBack.png");
+    }
+    public void makeSelectionBackground() {
+        new Background("resources/selectionBack.png");
+    }
+
+    public void makeGameUI(Player one, Player two) {
+        new UIPlayerOne(one);
+        new UIPlayerTwo(two);
+    }
+
 }

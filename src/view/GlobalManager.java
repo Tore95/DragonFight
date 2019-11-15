@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameLauncher;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
