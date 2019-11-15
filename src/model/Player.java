@@ -38,6 +38,10 @@ public abstract class Player extends GameObject {
     private Turned turned;
     private String currCharacter;
     private Properties spriteMapping;
+    private final int tickAura = 5;
+    private final int tickLife = 10;
+    private int countTickA = 0;
+    private int countTickL = 0;
 
     // Properties HashMaps
     private HashMap<String,Integer> hashAuraOne;
@@ -124,19 +128,19 @@ public abstract class Player extends GameObject {
         if (setPlayerAction(PlayerAction.KICK)) action();
     }
     protected void auraOne() {
-        if (setPlayerAction(PlayerAction.AURA1)) {
+        if (getAura() >= 10 && setPlayerAction(PlayerAction.AURA1)) {
             subAura(10);
             action();
         }
     }
     protected void auraTwo() {
-        if (setPlayerAction(PlayerAction.AURA2)) {
+        if (getAura() >= 30 && setPlayerAction(PlayerAction.AURA2)) {
             subAura(30);
             action();
         }
     }
     protected void auraFinal() {
-        if (setPlayerAction(PlayerAction.FINAL)) {
+        if (getAura() >= 50 && setPlayerAction(PlayerAction.FINAL)) {
             subAura(50);
             action();
         }
@@ -307,6 +311,17 @@ public abstract class Player extends GameObject {
 
     @Override
     public void draw() {
+
+        if ((countTickL >= tickLife) && (getLife() < 100)) {
+            addLife(1);
+            countTickL = 0;
+        } else countTickL++;
+
+        if ((countTickA >= tickAura) && (getAura() < 100)) {
+            addAura(1);
+            countTickA = 0;
+        } else countTickA++;
+
         imageView.setViewport(new Rectangle2D(currCol * viewportSize, currRow * viewportSize, viewportSize, viewportSize));
         if (lockedFrames < 0) {
             currCol = (currCol + 1) % rowFrames;

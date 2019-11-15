@@ -47,14 +47,15 @@ danger :- dangerA.
 danger :- dangerO.
 % align ------------------------------------------------------------------------
 alignY :- distOppY(D,_), D < 64.
-alignX :- distOppX(D,T),turned(T), myAura(A), A < 20, D < 64.
-alignX :- distOppX(D,T),turned(T), myAura(A), A >= 20, D < 550.
-align :- alignY, alignX.
+alignXa :- distOppX(D,T),turned(T), myAura(A), A < 10, D < 64.
+alignXb :- distOppX(D,T),turned(T), myAura(A), A >= 10, D < 550.
+align :- alignY, alignXa.
+align :- alignY, alignXb.
 % forAlign----------------------------------------------------------------------
 forAlign(Dir,Dist) :- distOppY(Dist,Dir), not alignY.
-forAlign(Dir,Dist) :- distOppX(DistP,Dir), myAura(A), A < 20, Dist = DistP - 64, not alignX.
-forAlign(Dir,Dist) :- distOppX(DistP,Dir), myAura(A), A >= 20, DistP >= 550, Dist = DistP - 500, not alignX.
-forAlign(Dir,Dist) :- distOppX(DistP,Dir), turned(T), DistP < 550, Dir != T, Dist = 10, not alignX.
+forAlign(Dir,Dist) :- distOppX(DistP,Dir), Dist = DistP - 64, not alignXa.
+forAlign(Dir,Dist) :- distOppX(DistP,Dir), Dist = DistP - 500, not alignXb.
+forAlign(Dir,Dist) :- distOppX(_,Dir), turned(T), Dir != T, Dist = 10, not alignXa, not alignXb.
 % check-------------------------------------------------------------------------
 :- go("right",Dist), pos(X,_), X + Dist > 1280.
 :- go("left",Dist), pos(X,_), X - Dist < 0.
@@ -62,9 +63,11 @@ forAlign(Dir,Dist) :- distOppX(DistP,Dir), turned(T), DistP < 550, Dir != T, Dis
 :- go("down",Dist), pos(_,Y), Y + Dist > 720.
 :- go("right",_), dangerA.
 :- go("left",_), dangerA.
-:- do("aura1"), myAura(A), A < 20.
-:- do("aura2"), myAura(A), A < 40.
-:- do("final"), myAura(A), A < 80.
+:- do("aura1"), myAura(A), A < 10.
+:- do("aura2"), myAura(A), A < 30.
+:- do("final"), myAura(A), A < 50.
+:- do("punch"), not alignXa.
+:- do("kick"), not alignXa.
 % strategy ---------------------------------------------------------------------
-:~ do("aura1"), myAura(A), A >= 40. [do("aura1") @ 2]
-:~ do("aura2"), myAura(A), A >= 80. [do("aura2") @ 1]
+:~ do("aura1"), myAura(A), A >= 30. [do("aura1") @ 2]
+:~ do("aura2"), myAura(A), A >= 50. [do("aura2") @ 1]

@@ -15,6 +15,8 @@ import model.enums.Characters;
 import model.enums.GameMode;
 import model.factory.GameFactory;
 import view.GlobalManager;
+import view.UIPlayerOne;
+import view.UIPlayerTwo;
 
 public class GameLauncher extends Application {
 
@@ -97,6 +99,9 @@ public class GameLauncher extends Application {
 
         playerOne.setTarget(playerTwo);
         playerTwo.setTarget(playerOne);
+
+        new UIPlayerOne(playerOne);
+        new UIPlayerTwo(playerTwo);
 
         globalManager.start();
         inPause = false;
