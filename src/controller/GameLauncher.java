@@ -6,24 +6,17 @@ import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Player;
 import model.enums.Characters;
 import model.enums.GameMode;
 import model.factory.GameFactory;
 import view.GlobalManager;
-import view.UIPlayerOne;
-import view.UIPlayerTwo;
 
 public class GameLauncher extends Application {
 
