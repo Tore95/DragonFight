@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="08be93b4-29b8-4e29-ac50-2ae34c40c8b5" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ToBKMKv7wrDFo0PXEfVX2Ta7i5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/EmbASP-3.1.0.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="GameLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="controller.GameLauncher" />
+      <module name="DragonFight" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GameLauncher" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="08be93b4-29b8-4e29-ac50-2ae34c40c8b5" name="Default Changelist" comment="" />
+      <created>1574116502670</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574116502670</updated>
+      <workItem from="1574116505716" duration="223000" />
+      <workItem from="1574178799482" duration="494000" />
+      <workItem from="1574619585669" duration="85000" />
+      <workItem from="1576150041833" duration="874000" />
+      <workItem from="1576151429353" duration="609000" />
+      <workItem from="1576152062489" duration="666000" />
+      <workItem from="1576153369890" duration="248000" />
+      <workItem from="1576153796072" duration="827000" />
+      <workItem from="1576188926151" duration="2778000" />
+    </task>
+    <task id="LOCAL-00001" summary="update">
+      <created>1576189055499</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1576189055499</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update">
+      <created>1576189134345</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1576189134345</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update">
+      <created>1576189296348</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1576189296348</updated>
+    </task>
+    <task id="LOCAL-00004" summary="improve IA">
+      <created>1576191612460</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1576191612460</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <MESSAGE value="improve IA" />
+    <option name="LAST_COMMIT_MESSAGE" value="improve IA" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser" timestamp="1576190958878">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser/0.0.1440.860@0.0.1440.860" timestamp="1576190958878" />
+    <state x="342" y="24" key="CommitChangelistDialog2" timestamp="1576191611888">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="342" y="24" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1576191611888" />
+    <state x="424" y="172" key="FileChooserDialogImpl" timestamp="1576153847832">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="424" y="172" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1576153847832" />
+    <state width="1398" height="223" key="GridCell.Tab.0.bottom" timestamp="1576191705755">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1398" height="223" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1576191705755" />
+    <state width="1398" height="223" key="GridCell.Tab.0.center" timestamp="1576191705755">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1398" height="223" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1576191705755" />
+    <state width="1398" height="223" key="GridCell.Tab.0.left" timestamp="1576191705755">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1398" height="223" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1576191705755" />
+    <state width="1398" height="223" key="GridCell.Tab.0.right" timestamp="1576191705755">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1398" height="223" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1576191705755" />
+    <state x="201" y="4" key="SettingsEditor" timestamp="1576153854050">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="201" y="4" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1576153854050" />
+    <state x="313" y="163" key="Vcs.Push.Dialog.v2" timestamp="1576191620816">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="313" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1576191620816" />
+    <state x="384" y="182" key="search.everywhere.popup" timestamp="1576190943845">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="384" y="182" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1576190943845" />
+  </component>
+</project>
