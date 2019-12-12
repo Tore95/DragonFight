@@ -14,6 +14,7 @@
 go("right",150) | go("left",150) | go("up",150) | go("down",150) :- danger.
 go(Dir,Dis) :- forAlign(Dir,Dis), not align, not danger.
 do("punch") | do("kick") | do("aura1") | do("aura2") | do("final") :- align, not danger.
+
 % support-----------------------------------------------------------------------
 baseAttack("punch").
 baseAttack("kick").
@@ -33,6 +34,7 @@ distOppX(D,"right") :- opp(Xo,_,_), pos(Xm,_), Xo >= Xm, D = Xo - Xm.
 distOppX(D,"left") :- opp(Xo,_,_), pos(Xm,_), Xo <= Xm, D = Xm - Xo.
 distOppY(D,"down") :- opp(_,Yo,_), pos(_,Ym), Yo >= Ym, D = Yo - Ym.
 distOppY(D,"up") :- opp(_,Yo,_), pos(_,Ym), Yo <= Ym, D = Ym - Yo.
+
 % danger -----------------------------------------------------------------------
 dangerAy :- distAuraY(D,_), D < 128.
 dangerAx :- aura(Xa,_,"left"), pos(Xm,_), Xa > Xm.
@@ -45,17 +47,20 @@ dangerO :- dangerOx, dangerOy.
 
 danger :- dangerA.
 danger :- dangerO.
+
 % align ------------------------------------------------------------------------
 alignY :- distOppY(D,_), D < 64.
 alignXa :- distOppX(D,T),turned(T), myAura(A), A < 10, D < 64.
 alignXb :- distOppX(D,T),turned(T), myAura(A), A >= 10, D < 550.
 align :- alignY, alignXa.
 align :- alignY, alignXb.
+
 % forAlign----------------------------------------------------------------------
 forAlign(Dir,Dist) :- distOppY(Dist,Dir), not alignY.
 forAlign(Dir,Dist) :- distOppX(DistP,Dir), Dist = DistP - 64, not alignXa.
 forAlign(Dir,Dist) :- distOppX(DistP,Dir), Dist = DistP - 500, not alignXb.
 forAlign(Dir,Dist) :- distOppX(_,Dir), turned(T), Dir != T, Dist = 10, not alignXa, not alignXb.
+
 % check-------------------------------------------------------------------------
 :- go("right",Dist), pos(X,_), X + Dist > 1280.
 :- go("left",Dist), pos(X,_), X - Dist < 0.
@@ -68,6 +73,7 @@ forAlign(Dir,Dist) :- distOppX(_,Dir), turned(T), Dir != T, Dist = 10, not align
 :- do("final"), myAura(A), A < 50.
 :- do("punch"), not alignXa.
 :- do("kick"), not alignXa.
+
 % strategy ---------------------------------------------------------------------
 :~ not do("aura2"), myAura(A), A >= 50. [do("aura2") @ 2]
 :~ not do("final"), myAura(A), A >= 80. [do("final") @ 1]

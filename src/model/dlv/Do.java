@@ -29,5 +29,4 @@ public class Do {
             case "final": this.action = PlayerAction.FINAL; break;
         }
     }
-
 }

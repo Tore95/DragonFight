@@ -1,6 +1,5 @@
 package view;
 
-import controller.GameLauncher;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -16,7 +15,7 @@ public class GlobalManager extends AnimationTimer {
     private static GlobalManager instance;
     public static final long FPS = 60L;
     public static final long SPRITE_FPS = 16L;
-    private static final long IA_FPS = 2L;
+    private static final long IA_FPS = 3L;
 
     private double lastFrame;
     private double lastSpriteFrame;

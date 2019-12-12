@@ -11,6 +11,8 @@ import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
+import javafx.application.Application;
+import javafx.application.Platform;
 import model.dlv.*;
 import model.Observer;
 import model.enums.Characters;
@@ -28,6 +30,7 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
     private PlayerOnePack playerOnePack;
     private PlayerTwoPack playerTwoPack;
     private LinkedList<AuraPack> auraPacks;
+    private InputProgram facts;
 
     private static final String encodingResource = "src/model/dlv/encoding";
     private static final Handler handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
@@ -65,6 +68,34 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
         }
     }
 
+    private void ia() throws Exception {
+        facts = new ASPInputProgram();
+        facts.addObjectInput(playerOnePack);
+        facts.addObjectInput(playerTwoPack);
+        for (AuraPack auraPack : auraPacks) {
+            facts.addObjectInput(auraPack);
+        }
+
+        handler.addProgram(facts);
+        Output o = handler.startSync();
+
+        AnswerSets answerSets = (AnswerSets) o;
+
+        AnswerSet answerSet = answerSets.getAnswersets().get(0);
+        System.out.println(answerSet);
+
+        for (Object obj: answerSet.getAtoms()) {
+            if (obj instanceof Do) {
+                Do action = (Do) obj;
+                doAction(action.getRealAction());
+            } else if (obj instanceof Go) {
+                Go goTo = (Go) obj;
+                goTo(goTo.getRealDirection(),goTo.getDistance());
+            }
+        }
+        handler.removeProgram(facts);
+    }
+
     public SinglePlayerTwo(Characters character) {
         super(character);
         auraPacks = new LinkedList<>();
@@ -75,6 +106,9 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
         } catch (ObjectNotValidException | IllegalAnnotationException e) {
             e.printStackTrace();
         }
+        InputProgram encoding = new InputProgram();
+        encoding.addFilesPath(encodingResource);
+        handler.addProgram(encoding);
     }
 
     @Override
@@ -86,43 +120,13 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
     public void update(PlayerOnePack pack) {
         this.playerOnePack = pack;
         this.playerTwoPack = new PlayerTwoPack(getX(),getY(),getLife(),getAura(),getDirection(),getTurned(),getPlayerAction());
-        ia();
+        try {
+            ia();
+        } catch (Exception e) {
+            System.err.println("Problem with IA");
+            Platform.exit();
+        }
         auraPacks.clear();
-    }
-
-    private void ia() {
-        handler.removeAll();
-        InputProgram facts = new ASPInputProgram();
-        try {
-            facts.addObjectInput(playerOnePack);
-            facts.addObjectInput(playerTwoPack);
-            for (AuraPack auraPack : auraPacks) {
-                facts.addObjectInput(auraPack);
-            }
-            facts.addFilesPath(encodingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        handler.addProgram(facts);
-        Output o = handler.startSync();
-        AnswerSets answer = (AnswerSets) o;
-        try {
-            for (AnswerSet as: answer.getAnswersets()) {
-                System.out.println(as.getAnswerSet());
-                for (Object obj: as.getAtoms()) {
-                    if (obj instanceof Do) {
-                        Do action = (Do) obj;
-                        doAction(action.getRealAction());
-                    } else if (obj instanceof Go) {
-                        Go goTo = (Go) obj;
-                        goTo(goTo.getRealDirection(),goTo.getDistance());
-                    }
-                }
-                break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
