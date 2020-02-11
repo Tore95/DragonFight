@@ -33,7 +33,7 @@ public class SinglePlayerTwo extends MultiPlayerTwo implements Observer {
     private InputProgram facts;
 
     private static final String encodingResource = "src/model/dlv/encoding";
-    private static final Handler handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
+    private static final Handler handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2"));
 
     private void doAction(PlayerAction action) {
         switch (action) {
