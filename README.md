@@ -1,5 +1,5 @@
 # DragonFight
-This is a project for "Graphical Interfaces and Event Programming" college course. It's a DragonBall fighting game, written in Java with the JavaFX graphics library and DLV2.0 for the IA module integration
+Questo è un proggetto universitario per "Interfacce Grafiche e Programmazione ad Eventi". Si tratta di un giochino picchiaduro basato su DagonBall, sviluppato in Java con la libreria JavaFX, il modulo di intelligenza artificiale DLV2.0 ed un paio di design patterns.
 
 ![Immagine di copertina del gioco](https://firebasestorage.googleapis.com/v0/b/personal-ee8a6.appspot.com/o/copertina_dragonfight.png?alt=media&token=14de4393-71a4-4f0c-9a6d-330119d2afc8)
 
@@ -23,6 +23,7 @@ Per l’intelligenza artificiale è stato utilizzata la tecnologia **DLV**, svil
 
 ## Metodi Di Sviluppo:
 Durante lo sviluppo del gioco sono stati utilizzati diversi pattern ed accortezze, una tra queste che merita attenzione è stata la volontà di creare delle **hitbox** più precise utilizzando delle **forme ellittiche**, operazione non facile quella di verificare in tempo reale la collisione tra due ellissi senza per forza mettere a sistema le rispettive equazioni. In pratica la questione si è risolta **definendo lungo la circonferenza dell’ellisse 8 punti equidistanti**, a questo punto è facile sapere se un punto si trova dentro un’ellisse o meno. In sostanza **due ellissi collidono se uno dei punti presenti sulla circonferenza entra dentro un’altra ellisse**.
+
 ![Formule dell'ellisse delle hitbox](https://firebasestorage.googleapis.com/v0/b/personal-ee8a6.appspot.com/o/HitboxEllipse_pages-to-jpg-0001.jpg?alt=media&token=63210eae-64ed-4796-a790-fe3fd676824d)
 
 ## Chi aggiorna gli oggetti di gioco:
